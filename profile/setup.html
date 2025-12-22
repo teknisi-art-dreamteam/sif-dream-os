@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream OS - Profile Setup</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="setup-container">
+        <!-- STEP 1: WELCOME -->
+        <div id="step1" class="step active">
+            <div class="logo">DREAM OS</div>
+            <h1>Welcome to Dream OS</h1>
+            <p>Let's personalize your experience</p>
+            <button onclick="nextStep(2)" class="btn-next">Start Setup</button>
+        </div>
+
+        <!-- STEP 2: AVATAR SELECTION -->
+        <div id="step2" class="step">
+            <h2>Choose Your Avatar</h2>
+            <div class="avatar-grid">
+                <img src="../assets/avatars/avatar1.png" onclick="selectAvatar(1)" class="avatar">
+                <img src="../assets/avatars/avatar2.png" onclick="selectAvatar(2)" class="avatar">
+                <img src="../assets/avatars/avatar3.png" onclick="selectAvatar(3)" class="avatar">
+                <img src="../assets/avatars/avatar4.png" onclick="selectAvatar(4)" class="avatar">
+            </div>
+            <button onclick="nextStep(3)" class="btn-next">Next</button>
+        </div>
+
+        <!-- STEP 3: USERNAME -->
+        <div id="step3" class="step">
+            <h2>Enter Your Username</h2>
+            <input type="text" id="username" placeholder="Enter your name" maxlength="20">
+            <div class="username-preview" id="usernamePreview">@user</div>
+            <button onclick="saveUsername()" class="btn-next">Continue</button>
+        </div>
+
+        <!-- STEP 4: WALLPAPER -->
+        <div id="step4" class="step">
+            <h2>Choose Wallpaper</h2>
+            <div class="wallpaper-grid">
+                <div class="wallpaper" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" onclick="selectWallpaper('gradient1')"></div>
+                <div class="wallpaper" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);" onclick="selectWallpaper('gradient2')"></div>
+                <div class="wallpaper" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);" onclick="selectWallpaper('gradient3')"></div>
+                <div class="wallpaper" style="background: url('../assets/wallpapers/cyber.jpg');" onclick="selectWallpaper('cyber')"></div>
+            </div>
+            <button onclick="nextStep(5)" class="btn-next">Next</button>
+        </div>
+
+        <!-- STEP 5: THEME SELECTION -->
+        <div id="step5" class="step">
+            <h2>Select Theme</h2>
+            <div class="theme-options">
+                <div class="theme-option" onclick="selectTheme('light')">
+                    <div class="theme-preview light"></div>
+                    <span>Light Mode</span>
+                </div>
+                <div class="theme-option" onclick="selectTheme('dark')">
+                    <div class="theme-preview dark"></div>
+                    <span>Dark Mode</span>
+                </div>
+                <div class="theme-option" onclick="selectTheme('cyber')">
+                    <div class="theme-preview cyber"></div>
+                    <span>Cyber Punk</span>
+                </div>
+            </div>
+            <button onclick="nextStep(6)" class="btn-next">Next</button>
+        </div>
+
+        <!-- STEP 6: FINALIZE -->
+        <div id="step6" class="step">
+            <h2>Setup Complete! 🎉</h2>
+            <div class="profile-summary">
+                <img id="summaryAvatar" src="../assets/avatars/avatar1.png" class="summary-avatar">
+                <div class="summary-info">
+                    <h3 id="summaryName">User</h3>
+                    <p>Theme: <span id="summaryTheme">Light</span></p>
+                    <p>Wallpaper: <span id="summaryWallpaper">Gradient</span></p>
+                </div>
+            </div>
+            <div class="privacy-notice">
+                <input type="checkbox" id="privacyAgree"> 
+                <label for="privacyAgree">I agree to store my profile locally (no data sent to servers)</label>
+            </div>
+            <button onclick="finishSetup()" class="btn-launch">Launch Dream OS</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
