@@ -1,0 +1,19 @@
+{
+  "app_name": "Dream OS",
+  "welcome": "Selamat datang di Dream OS",
+  "start_setup": "Mulai Setup",
+  "choose_avatar": "Pilih Avatar Anda",
+  "enter_username": "Masukkan Nama Pengguna",
+  "choose_wallpaper": "Pilih Wallpaper",
+  "select_theme": "Pilih Tema",
+  "light_mode": "Mode Terang",
+  "dark_mode": "Mode Gelap",
+  "cyber_punk": "Cyber Punk",
+  "setup_complete": "Setup Selesai! 🎉",
+  "privacy_agree": "Saya setuju menyimpan profil secara lokal",
+  "launch_os": "Jalankan Dream OS",
+  "next": "Lanjut",
+  "back": "Kembali",
+  "save": "Simpan",
+  "cancel": "Batal"
+}
