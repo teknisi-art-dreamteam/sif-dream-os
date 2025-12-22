@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream OS</title>
+</head>
+<body>
+    <script>
+        // Check if profile setup is complete
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedProfile = localStorage.getItem('dreamOS_profile');
+            
+            if (!savedProfile) {
+                // Redirect to setup if no profile
+                window.location.href = "profile/setup.html";
+            } else {
+                const profile = JSON.parse(savedProfile);
+                if (!profile.isSetupComplete) {
+                    window.location.href = "profile/setup.html";
+                } else {
+                    // Load dashboard with profile
+                    window.location.href = "dashboard.html";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
