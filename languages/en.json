@@ -1,0 +1,19 @@
+{
+  "app_name": "Dream OS",
+  "welcome": "Welcome to Dream OS",
+  "start_setup": "Start Setup",
+  "choose_avatar": "Choose Your Avatar",
+  "enter_username": "Enter Your Username",
+  "choose_wallpaper": "Choose Wallpaper",
+  "select_theme": "Select Theme",
+  "light_mode": "Light Mode",
+  "dark_mode": "Dark Mode",
+  "cyber_punk": "Cyber Punk",
+  "setup_complete": "Setup Complete! 🎉",
+  "privacy_agree": "I agree to store my profile locally",
+  "launch_os": "Launch Dream OS",
+  "next": "Next",
+  "back": "Back",
+  "save": "Save",
+  "cancel": "Cancel"
+}
