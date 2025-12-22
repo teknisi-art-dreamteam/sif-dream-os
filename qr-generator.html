@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator - Dream OS</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #006400; border-radius: 8px; }
+        button { background: #006400; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; }
+        .qr-box { margin: 20px 0; padding: 20px; border: 3px solid #006400; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: #006400;">📱 QR Code Generator</h1>
+        <p>Generate QR Code untuk Dream OS</p>
+        
+        <input type="url" id="urlInput" placeholder="https://your-domain.com" value="https://umumalfikrischid-code.github.io/sif-dream-os">
+        <button onclick="generateQR()">Generate QR Code</button>
+        
+        <div class="qr-box">
+            <img id="qrImage" src="" alt="QR Code" style="width: 200px; height: 200px; display: none;">
+            <p id="qrText">Masukkan URL di atas</p>
+        </div>
+        
+        <button onclick="downloadQR()" style="background: #FFD700; color: #000; display: none;" id="downloadBtn">
+            ⬇️ Download QR Code
+        </button>
+    </div>
+
+    <script>
+        function generateQR() {
+            const url = document.getElementById('urlInput').value;
+            if (!url) return alert('Masukkan URL dulu!');
+            
+            const qrURL = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(url)}&color=006400&bgcolor=E8F5E9`;
+            
+            document.getElementById('qrImage').src = qrURL;
+            document.getElementById('qrImage').style.display = 'block';
+            document.getElementById('qrText').innerHTML = `Scan untuk: <br><strong>${url}</strong>`;
+            document.getElementById('downloadBtn').style.display = 'block';
+        }
+        
+        function downloadQR() {
+            const img = document.getElementById('qrImage');
+            const link = document.createElement('a');
+            link.href = img.src;
+            link.download = 'dream-os-qr-code.png';
+            link.click();
+        }
+        
+        // Auto-generate on load
+        window.onload = generateQR;
+    </script>
+</body>
+</html>
