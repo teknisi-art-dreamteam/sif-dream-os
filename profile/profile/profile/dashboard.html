@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream OS Dashboard</title>
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --bg-color: #1a1a2e;
+            --text-color: white;
+        }
+        
+        body {
+            margin: 0;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .dashboard {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .sidebar {
+            width: 80px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .desktop {
+            flex: 1;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 20px;
+        }
+        
+        .app-icon {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .app-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .app-icon img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body id="mainBody">
+    <div class="dashboard">
+        <div class="sidebar">
+            <img src="" alt="Avatar" class="user-avatar" id="userAvatar">
+            <!-- App icons -->
+        </div>
+        <div class="desktop" id="desktop">
+            <!-- App shortcuts will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Load user profile
+        const profile = JSON.parse(localStorage.getItem('dreamOS_profile')) || {
+            username: "User",
+            avatar: "avatar1.png",
+            wallpaper: "gradient1",
+            theme: "dark"
+        };
+
+        // Apply profile settings
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set avatar
+            document.getElementById('userAvatar').src = `assets/avatars/${profile.avatar}`;
+            
+            // Set wallpaper
+            const wallpapers = {
+                gradient1: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                gradient2: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                gradient3: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                cyber: 'url(assets/wallpapers/cyber.jpg)'
+            };
+            
+            document.getElementById('mainBody').style.background = 
+                wallpapers[profile.wallpaper] || wallpapers.gradient1;
+            
+            // Set theme
+            document.documentElement.setAttribute('data-theme', profile.theme);
+            
+            // Welcome message
+            console.log(`Welcome back, ${profile.username}!`);
+        });
+        
+        // Logout/Reset function
+        function resetProfile() {
+            if (confirm('Reset profile and start setup again?')) {
+                localStorage.removeItem('dreamOS_profile');
+                window.location.href = "profile/setup.html";
+            }
+        }
+    </script>
+</body>
+</html>
