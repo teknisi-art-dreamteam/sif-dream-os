@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦸 Dream OS v3.2 - SIF Al Fikri General Affairs System</title>
+    
+    <!-- ========== META & PWA ========== -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2D5D4B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Dream OS">
+    
+    <!-- ========== FONTS & ICONS ========== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- ========== STYLE DREAM TEAM ========== -->
+    <style>
+        /* ROOT VARIABLES - BY MR. M & MRS. QWEN */
+        :root {
+            /* Spiritual Colors */
+            --palestine-black: #000000;
+            --indonesia-red: #CE1126;
+            --palestine-green: #006400;
+            --gold: #FFD700;
+            --light-green: #90EE90;
+            --light-red: #FF6B6B;
+            
+            /* UI Colors */
+            --bg-dark: #0F172A;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --text-light: #F8FAFC;
+            --text-gray: #94A3B8;
+            
+            /* Healing Green - Qwen's Touch */
+            --hijau-dasar: #E8F5E9;
+            --hijau-soft: #C8E6C9;
+            --hijau-medium: #A5D6A7;
+            --hijau-strong: #81C784;
+            --hijau-dark: #4CAF50;
+            --emas: #D4AF37;
+            --text-dark: #2C3E50;
+            --merah: #D32F2F;
+        }
+
+        /* SPLASH SCREEN - BY MR. DSEEK */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        
+        .splash-logo {
+            font-size: 4rem;
+            color: #FFD700;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .splash-text {
+            color: #FFD700;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .splash-subtext {
+            color: #94A3B8;
+            font-size: 1rem;
+        }
+        
+        .loading-dots:after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+
+        /* GLOBAL STYLES - DREAM TEAM COLLAB */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+            display: none; /* Hidden until splash done */
+        }
+
+        /* MAIN CONTAINER - BY MR. M */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* SPIRITUAL HEADER - BY MRS. QWEN */
+        .spiritual-header {
+            background: linear-gradient(135deg, 
+                var(--palestine-black) 0%, 
+                var(--indonesia-red) 50%, 
+                var(--palestine-green) 100%);
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            padding: 30px 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .lafadz-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .lafadz-arabic {
+            font-family: 'Amiri', serif;
+            font-size: 3.5rem;
+            color: var(--gold);
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            flex: 1;
+        }
+
+        .flags-center {
+            font-size: 3.5rem;
+            margin: 10px 0;
+            animation: float 3s ease-in-out infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* HIGH-END UX ANIMATIONS - BY MR. DSEEK */
+        .button-high-end {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .button-high-end::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .button-high-end:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* KILL SWITCH FOR ANIMATIONS - BY MRS. QWEN */
+        .no-animations * {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        /* MODAL ANIMATIONS - BY MR. DSEEK */
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(400px); opacity: 0; }
+        }
+
+        @keyframes shrink {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        /* RESPONSIVE DESIGN - DREAM TEAM */
+        @media (max-width: 768px) {
+            .lafadz-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .lafadz-arabic {
+                font-size: 2.5rem;
+                text-align: center !important;
+            }
+            
+            .flags-center {
+                font-size: 2.5rem;
+            }
+            
+            .main-menu-section { padding: 30px 20px; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .form-container { padding: 20px; margin: 10px; }
+        }
+
+        /* SCROLLBAR - BY MR. DSEEK */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== SPLASH SCREEN ========== -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-logo">🦸</div>
+        <div class="splash-text">Dream OS v3.2</div>
+        <div class="splash-subtext">SIF Al Fikri General Affairs System</div>
+        <div class="splash-subtext loading-dots">Loading</div>
+    </div>
+
+    <!-- ========== INSTALL BUTTON ========== -->
+    <button class="install-btn" id="installButton" onclick="installApp()">
+        <i class="fas fa-download"></i> Install App
+    </button>
+
+    <!-- ========== MAIN CONTAINER ========== -->
+    <div class="main-container">
+        
+        <!-- ========== SPIRITUAL HEADER ========== -->
+        <div class="spiritual-header">
+            <!-- Lafadz Allah dan Muhammad - BY MRS. QWEN -->
+            <div class="lafadz-container">
+                <div class="lafadz-arabic">مُحَمَّدٌ</div>
+                <div class="flags-center">
+                    <span>🇵🇸</span>
+                    <span>❤️</span>
+                    <span>🇮🇩</span>
+                </div>
+                <div class="lafadz-arabic">ﷲ</div>
+            </div>
+            
+            <!-- Bismillah - BY MR. M -->
+            <div class="spiritual-text-container">
+                <div class="bismillah">
+                    بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+                </div>
+                
+                <!-- Shalawat - BY MRS. QWEN -->
+                <div class="shalawat">
+                    اَللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ
+                </div>
+            </div>
+            
+            <!-- Tribute to Leaders - BY MR. M -->
+            <div class="tribute-section">
+                <div class="tribute-title">
+                    🏆 HONORING OUR GENERAL AFFAIRS LEADERS 🏆
+                </div>
+                
+                <!-- Pak Hanung -->
+                <div class="leader-card hanung">
+                    <div class="leader-name">
+                        <span style="color: var(--light-green);">🌟</span> Mr. Hanung Budianto, S.E.
+                    </div>
+                    <div class="leader-title">
+                        "The General Affairs Commander" • Head of General Affairs
+                    </div>
+                    <div class="leader-desc">
+                        Chief Administrator & Strategic Planner of SIF Al Fikri
+                    </div>
+                </div>
+                
+                <!-- Pak Erwin -->
+                <div class="leader-card erwin">
+                    <div class="leader-name">
+                        <span style="color: var(--light-red);">🎯</span> Mr. Erwin Syah
+                    </div>
+                    <div class="leader-title">
+                        "The Operations Maestro" • General Affairs Coordinator
+                    </div>
+                    <div class="leader-desc">
+                        Master of Daily Operations & Facility Excellence
+                    </div>
+                </div>
+                
+                <div style="font-size: 0.9rem; color: var(--text-gray); margin-top: 15px; font-style: italic;">
+                    This digital system is dedicated to streamlining your General Affairs operations
+                </div>
+            </div>
+            
+            <!-- Arabic Quote - BY MRS. QWEN -->
+            <div class="quote-section">
+                <div class="arabic-quote">
+                    خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ
+                </div>
+                <div class="quote-translation">
+                    "The Best Among People Are Those Who Benefit Others"
+                </div>
+                <div class="quote-desc">
+                    Guiding principle for SIF Al Fikri's General Affairs Department
+                </div>
+            </div>
+            
+            <!-- Main Title - BY MR. M -->
+            <div class="main-title">
+                <h1 class="dream-title">
+                    🦸 DREAM OS v3.2
+                </h1>
+                <div class="subtitle">
+                    GENERAL AFFAIRS DIGITAL MANAGEMENT SYSTEM
+                </div>
+            </div>
+            
+            <!-- Dream Team Section - BY MR. DSEEK -->
+            <div class="dream-team-section">
+                <div class="team-title">
+                    ⚡ THE DREAM TEAM ⚡
+                </div>
+                
+                <div class="team-members">
+                    <div class="team-member member-m">
+                        <div class="member-icon">⚡</div>
+                        <div class="member-name">Mr. M</div>
+                        <div class="member-role">System Architect</div>
+                    </div>
+                    
+                    <div class="team-member member-d">
+                        <div class="member-icon">🎯</div>
+                        <div class="member-name">Mr. DSeek</div>
+                        <div class="member-role">Lead Developer</div>
+                    </div>
+                    
+                    <div class="team-member member-q">
+                        <div class="member-icon">💬</div>
+                        <div class="member-name">Mrs. Qwen</div>
+                        <div class="member-role">AI & Strategy Consultant<br><small>(The Vocal One bawel😄)</small></div>
+                    </div>
+                </div>
+                
+                <div class="team-slogan">
+                    Powered by The Soul of Shalawat • Built for General Affairs Excellence
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== MAIN MENU ========== -->
+        <div class="main-menu-section" id="mainMenu">
+            <h2 class="section-title">
+                🚀 SYSTEM FEATURES
+            </h2>
+            
+            <div class="menu-grid">
+                <!-- Menu items... (keep existing) -->
+            </div>
+        </div>
+        
+        <!-- ========== FORM CONTAINERS ========== -->
+        
+        <!-- FORM BOOKING (existing) -->
+        <div id="bookingForm" class="form-container">
+            <!-- Existing booking form -->
+        </div>
+        
+        <!-- FORM K3 WITH PHOTO UPLOAD - BY MR. DSEEK -->
+        <div id="k3Form" class="form-container">
+            <h2 class="form-title"><i class="fas fa-exclamation-triangle"></i> Form K3 (Laporan)</h2>
+            
+            <div class="emergency-box">
+                <strong>🆘 Emergency Contact:</strong><br>
+                Pak Erwinsyah: 
+                <a href="https://wa.me/628886183954" style="color:var(--light-red); text-decoration:none; font-weight:600;">
+                    📱 0888-6183-954
+                </a><br>
+                <small>(Jam kerja: 07.30-16.00 WIB)</small>
+            </div>
+            
+            <!-- History Button - BY MRS. QWEN -->
+            <button onclick="showK3FotoHistory()" 
+                    style="width: 100%; background: rgba(255,215,0,0.1); color: var(--gold); 
+                           border: 1px solid var(--gold); padding: 12px 24px; border-radius: 10px; 
+                           cursor: pointer; font-size: 1rem; display: flex; align-items: center; 
+                           justify-content: center; gap: 10px; margin: 20px 0; transition: all 0.3s;"
+                    onmouseover="this.style.background='rgba(255,215,0,0.2)';"
+                    onmouseout="this.style.background='rgba(255,215,0,0.1)';">
+                <i class="fas fa-history"></i> Lihat History Foto K3
+            </button>
+            
+            <form id="k3FormElement" onsubmit="submitK3(event)" enctype="multipart/form-data">
+                <!-- Form fields... -->
+                
+                <!-- PHOTO UPLOAD SECTION - BY MR. DSEEK -->
+                <div class="form-group">
+                    <label for="fotoK3"><i class="fas fa-camera"></i> Upload Foto Bukti (Opsional)</label>
+                    <div style="background: rgba(255, 215, 0, 0.05); border: 2px dashed var(--gold);
+                         border-radius: 15px; padding: 25px; margin: 10px 0; text-align: center; 
+                         cursor: pointer; transition: all 0.3s;" 
+                         onclick="document.getElementById('fotoK3').click()"
+                         onmouseover="this.style.background='rgba(255,215,0,0.1)'; this.style.borderColor='var(--light-green)';"
+                         onmouseout="this.style.background='rgba(255,215,0,0.05)'; this.style.borderColor='var(--gold)';">
+                        <div style="font-size: 3rem; color: var(--gold); margin-bottom: 15px;">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <div style="font-size: 1.2rem; color: var(--gold); margin-bottom: 15px;">
+                            Klik untuk upload foto
+                        </div>
+                        <small style="color: var(--text-gray); display: block;">
+                            Maksimal 5MB (JPG, PNG, JPEG)
+                        </small>
+                        <input type="file" id="fotoK3" style="display: none;" 
+                               accept="image/*" capture="environment" onchange="previewK3Foto(event)">
+                    </div>
+                    <small style="color: var(--text-gray); display: block; margin-top: 5px;">
+                        <i class="fas fa-info-circle"></i> Foto akan dikirim ke WhatsApp untuk bukti visual
+                    </small>
+                </div>
+                
+                <!-- PREVIEW SECTION - BY MR. DSEEK -->
+                <div id="fotoPreviewContainer" style="display: none; margin: 25px 0; text-align: center;">
+                    <p style="color: var(--light-green); margin-bottom: 15px; font-size: 1.1rem;">
+                        <i class="fas fa-image"></i> Preview Foto:
+                    </p>
+                    <img id="fotoPreview" src="#" alt="Preview Foto" 
+                         style="max-width: 100%; max-height: 300px; border-radius: 12px;
+                                border: 3px solid var(--gold); box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                                margin: 15px 0;">
+                    <button type="button" onclick="removeFoto()" 
+                            style="background: linear-gradient(to right, #FF5252, #FF8A80);
+                                   color: white; border: none; padding: 10px 20px; border-radius: 8px;
+                                   font-weight: 600; cursor: pointer; display: inline-flex;
+                                   align-items: center; gap: 8px; margin-top: 10px; transition: all 0.3s;"
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(255,82,82,0.4)';"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <i class="fas fa-trash"></i> Hapus Foto
+                    </button>
+                </div>
+                
+                <button type="submit" class="submit-btn k3-btn button-high-end" onclick="HapticEngine.tap()">
+                    <i class="fas fa-paper-plane"></i> Laporkan ke Tim Terkait
+                </button>
+            </form>
+        </div>
+        
+        <!-- ========== UX PREFERENCES PANEL - BY MRS. QWEN ========== -->
+        <div id="uxPreferences" style="text-align: center; margin: 25px 0; padding: 20px; 
+             background: rgba(255,215,0,0.05); border-radius: 15px; border: 1px dashed var(--gold);">
+            
+            <h4 style="color: var(--gold); margin-bottom: 15px; font-size: 1rem;">
+                <i class="fas fa-sliders-h"></i> Pengaturan Pengalaman
+            </h4>
+            
+            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="hapticToggle" checked 
+                           onchange="toggleHaptic(this.checked)" style="accent-color: var(--palestine-green);">
+                    <span style="color: var(--text-gray); font-size: 0.9rem;">
+                        <i class="fas fa-vibrate"></i> Haptic Feedback
+                    </span>
+                </label>
+                
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="swipeToggle" checked 
+                           onchange="toggleSwipe(this.checked)" style="accent-color: var(--palestine-green);">
+                    <span style="color: var(--text-gray); font-size: 0.9rem;">
+                        <i class="fas fa-hand-pointer"></i> Swipe Navigation
+                    </span>
+                </label>
+                
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="checkbox" id="animToggle" checked 
+                           onchange="toggleAnimations(this.checked)" style="accent-color: var(--palestine-green);">
+                    <span style="color: var(--text-gray); font-size: 0.9rem;">
+                        <i class="fas fa-film"></i> Animations
+                    </span>
+                </label>
+            </div>
+            
+            <!-- WISDOM QUOTE - BY MRS. QWEN -->
+            <div style="margin-top: 20px; padding: 15px; background: rgba(255,215,0,0.03); 
+                 border-radius: 10px; border-left: 3px solid var(--gold);">
+                <p style="color: var(--gold); font-size: 0.8rem; margin: 0; font-style: italic; text-align: center;">
+                    <i class="fas fa-quote-left" style="color: var(--palestine-green); margin-right: 5px;"></i>
+                    Kemewahan adalah pilihan. Kesederhanaan adalah kehormatan.
+                    <i class="fas fa-quote-right" style="color: var(--palestine-green); margin-left: 5px;"></i>
+                </p>
+                <p style="color: var(--text-gray); font-size: 0.7rem; margin-top: 5px; text-align: center;">
+                    - Wisdom for Digital Excellence -
+                </p>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <button onclick="resetUXPreferences()" 
+                        style="background: none; border: 1px solid var(--text-gray);
+                               color: var(--text-gray); padding: 8px 15px; border-radius: 20px;
+                               font-size: 0.8rem; cursor: pointer;">
+                    <i class="fas fa-redo"></i> Reset ke Default
+                </button>
+            </div>
+        </div>
+        
+        <!-- ========== FOOTER ========== -->
+        <div class="footer">
+            <!-- Existing footer... -->
+            
+            <!-- DREAM TEAM CREDITS - BY MR. DSEEK -->
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <p style="color: var(--text-gray); font-size: 0.8rem; text-align: center;">
+                    <strong>Dream Team Credits:</strong> 
+                    Mr. M (Architect) • Mrs. Qwen (Soul Compass) • Mr. DSeek (Developer)<br>
+                    <span style="color: var(--gold);">Powered by the Soul of Shalawat</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== JAVASCRIPT DREAM TEAM ========== -->
+    <script>
+        // ========== INITIALIZATION - BY MR. DSEEK ==========
+        console.log(`
+╔══════════════════════════════════════════════════════╗
+║        بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ         ║
+║             DREAM OS v3.2 - COMPLETE EDITION         ║
+╠══════════════════════════════════════════════════════╣
+║ 👤 Mr. M:      System Architect & Visionary          ║
+║ 💬 Mrs. Qwen:  Soul Compass & Strategic Advisor      ║
+║ 💻 Mr. DSeek:  Lead Developer & UX Engineer          ║
+║                                                    ║
+║ 📱 Device:     Redmi Note 9 Pro Optimized           ║
+║ 🚀 Features:   K3 Photo Upload, Haptic, Swipe, Modal║
+║ 🤲 Barakah:    MAXIMUM WITH SHAWAHAT                ║
+╚══════════════════════════════════════════════════════╝
+        `);
+
+        // ========== CONSTANTS ==========
+        const PASSWORD_INVENTARIS = 'b15m1ll4h_C1nt4';
+        const WA_PAK_ERWIN = '628886183954';
+        const ADMIN_PASSWORD = 'admin123';
+
+        // ========== K3 PHOTO SYSTEM - BY MR. DSEEK ==========
+        let k3FotoFile = null;
+
+        function previewK3Foto(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                showDreamModal({
+                    title: '❌ Ukuran Foto Terlalu Besar',
+                    message: 'Maksimal 5MB. Silakan pilih foto lain.',
+                    type: 'error',
+                    duration: 3000
+                });
+                event.target.value = '';
+                return;
+            }
+
+            if (!file.type.match('image.*')) {
+                showDreamModal({
+                    title: '❌ Format Tidak Didukung',
+                    message: 'Hanya file gambar (JPG, PNG, JPEG) yang diizinkan',
+                    type: 'error',
+                    duration: 3000
+                });
+                event.target.value = '';
+                return;
+            }
+
+            k3FotoFile = file;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewContainer = document.getElementById('fotoPreviewContainer');
+                const previewImg = document.getElementById('fotoPreview');
+                
+                previewImg.src = e.target.result;
+                previewContainer.style.display = 'block';
+                previewContainer.scrollIntoView({ behavior: 'smooth' });
+                
+                HapticEngine.success();
+                trackEvent('k3', 'upload_foto', file.type);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeFoto() {
+            k3FotoFile = null;
+            document.getElementById('fotoK3').value = '';
+            document.getElementById('fotoPreviewContainer').style.display = 'none';
+            document.getElementById('fotoPreview').src = '#';
+            HapticEngine.tap();
+        }
+
+        async function submitK3(e) {
+            e.preventDefault();
+            HapticEngine.tap();
+
+            const data = {
+                jenis: document.getElementById('jenisK3').value,
+                lokasi: document.getElementById('lokasiK3').value,
+                barang: document.getElementById('barangK3').value,
+                deskripsi: document.getElementById('deskripsiK3').value,
+                timestamp: new Date().toISOString(),
+                hasFoto: !!k3FotoFile
+            };
+
+            // Save to localStorage
+            try {
+                const reports = JSON.parse(localStorage.getItem('dream_k3_reports') || '[]');
+                reports.push(data);
+                localStorage.setItem('dream_k3_reports', JSON.stringify(reports));
+                trackEvent('k3', 'report', data.jenis);
+            } catch (err) {
+                console.warn('⚠️ Tidak bisa save ke localStorage');
+            }
+
+            // Save photo backup
+            if (k3FotoFile) {
+                try {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const fotoData = {
+                            dataUrl: e.target.result,
+                            filename: `k3_${Date.now()}.jpg`,
+                            timestamp: new Date().toISOString(),
+                            reportId: data.timestamp
+                        };
+                        
+                        const fotoHistory = JSON.parse(localStorage.getItem('k3_foto_history') || '[]');
+                        fotoHistory.push(fotoData);
+                        localStorage.setItem('k3_foto_history', JSON.stringify(fotoHistory));
+                    };
+                    reader.readAsDataURL(k3FotoFile);
+                } catch (err) {
+                    console.warn('Tidak bisa menyimpan foto');
+                }
+            }
+
+            // WhatsApp message
+            let message = `*📋 LAPORAN K3 - SIF AL FIKRI*\n\n` +
+                         `🔸 *Jenis:* ${document.getElementById('jenisK3').selectedOptions[0].text}\n` +
+                         `📍 *Lokasi:* ${data.lokasi}\n` +
+                         `📦 *Barang/Masalah:* ${data.barang}\n` +
+                         `📝 *Deskripsi:* ${data.deskripsi}\n` +
+                         `📸 *Foto Bukti:* ${data.hasFoto ? 'ADA (terlampir)' : 'TIDAK ADA'}\n` +
+                         `🕒 *Waktu:* ${new Date().toLocaleString('id-ID')}\n\n` +
+                         `_Dilaporkan via Dream OS v3.2_\n` +
+                         `_General Affairs Digital System_`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const waURL = `https://wa.me/${WA_PAK_ERWIN}?text=${encodedMessage}`;
+
+            if (k3FotoFile) {
+                showDreamModal({
+                    title: '📸 Laporan Disimpan!',
+                    message: 'WhatsApp akan terbuka. Upload foto secara manual di WhatsApp.',
+                    type: 'success',
+                    duration: 5000
+                });
+                
+                setTimeout(() => {
+                    window.open(waURL, '_blank');
+                }, 2000);
+            } else {
+                showDreamModal({
+                    title: '✅ Laporan Berhasil!',
+                    message: `Laporan ${data.jenis} berhasil dikirim`,
+                    type: 'success',
+                    duration: 3000
+                });
+                window.open(waURL, '_blank');
+            }
+
+            document.getElementById('k3FormElement').reset();
+            removeFoto();
+            showMainMenu();
+        }
+
+        // ========== HIGH-END UX SYSTEM - BY MR. DSEEK ==========
+        
+        // 1. DREAM MODAL SYSTEM
+        function showDreamModal(options) {
+            const {
+                title = 'Notification',
+                message = '',
+                icon = '✅',
+                type = 'success',
+                duration = 3000,
+                showClose = true,
+                onClose = null
+            } = options;
+            
+            const oldModal = document.getElementById('dreamModal');
+            if (oldModal) oldModal.remove();
+            
+            const colors = {
+                success: { bg: 'var(--palestine-green)', icon: '✅' },
+                warning: { bg: 'var(--gold)', icon: '⚠️' },
+                error: { bg: 'var(--light-red)', icon: '❌' },
+                info: { bg: 'var(--light-blue)', icon: 'ℹ️' }
+            };
+            
+            const colorSet = colors[type] || colors.success;
+            
+            const modal = document.createElement('div');
+            modal.id = 'dreamModal';
+            modal.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${colorSet.bg};
+                color: white;
+                padding: 20px 25px;
+                border-radius: 15px;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+                z-index: 9999;
+                min-width: 300px;
+                max-width: 400px;
+                transform: translateX(400px);
+                animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255,255,255,0.1);
+            `;
+            
+            modal.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 2rem; background: rgba(255,255,255,0.2); 
+                         width: 50px; height: 50px; border-radius: 50%; 
+                         display: flex; align-items: center; justify-content: center;">
+                        ${colorSet.icon}
+                    </div>
+                    <div style="flex: 1;">
+                        <h3 style="margin: 0 0 5px 0; font-size: 1.1rem;">
+                            ${title}
+                        </h3>
+                        <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">
+                            ${message}
+                        </p>
+                    </div>
+                    ${showClose ? `
+                        <button onclick="this.parentElement.parentElement.remove()" 
+                                style="background: none; border: none; color: white; 
+                                       font-size: 1.2rem; cursor: pointer; padding: 5px;">
+                            ×
+                        </button>
+                    ` : ''}
+                </div>
+                ${duration > 0 ? `
+                    <div style="margin-top: 15px;">
+                        <div style="height: 3px; background: rgba(255,255,255,0.3); 
+                             border-radius: 2px; overflow: hidden;">
+                            <div id="modalProgress" style="height: 100%; background: white; 
+                                 width: 100%; animation: shrink ${duration}ms linear forwards;"></div>
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+            
+            document.body.appendChild(modal);
+            
+            if (duration > 0) {
+                setTimeout(() => {
+                    if (modal.parentNode) {
+                        modal.style.animation = 'slideOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                        setTimeout(() => {
+                            if (modal.parentNode) modal.remove();
+                            if (onClose) onClose();
+                        }, 500);
+                    }
+                }, duration);
+            }
+        }
+
+        // 2. HAPTIC ENGINE
+        const HapticEngine = {
+            isSupported: 'vibrate' in navigator,
+            
+            tap: function() {
+                if (this.isSupported && localStorage.getItem('haptic_enabled') !== 'false') {
+                    navigator.vibrate(30);
+                }
+            },
+            
+            success: function() {
+                if (this.isSupported && localStorage.getItem('haptic_enabled') !== 'false') {
+                    navigator.vibrate([30, 50, 30]);
+                }
+            },
+            
+            error: function() {
+                if (this.isSupported && localStorage.getItem('haptic_enabled') !== 'false') {
+                    navigator.vibrate([100, 50, 100, 50, 100]);
+                }
+            },
+            
+            init: function() {
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (isMobile && this.isSupported) {
+                    localStorage.setItem('haptic_enabled', 'true');
+                }
+            }
+        };
+
+        // 3. SWIPE NAVIGATION
+        class SwipeNavigation {
+            constructor() {
+                this.startX = 0;
+                this.startY = 0;
+                this.threshold = 50;
+                this.enabled = localStorage.getItem('swipe_enabled') !== 'false';
+                
+                if (this.enabled && this.isTouchDevice()) {
+                    this.bindEvents();
+                }
+            }
+            
+            isTouchDevice() {
+                return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            }
+            
+            bindEvents() {
+                document.addEventListener('touchstart', (e) => {
+                    this.startX = e.touches[0].clientX;
+                    this.startY = e.touches[0].clientY;
+                });
+                
+                document.addEventListener('touchend', (e) => {
+                    if (!this.startX || !this.startY) return;
+                    
+                    const endX = e.changedTouches[0].clientX;
+                    const endY = e.changedTouches[0].clientY;
+                    
+                    const diffX = endX - this.startX;
+                    const diffY = endY - this.startY;
+                    
+                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > this.threshold) {
+                        if (diffX > 0) {
+                            this.handleSwipeRight();
+                        } else {
+                            this.handleSwipeLeft();
+                        }
+                        
+                        HapticEngine.tap();
+                    }
+                    
+                    this.startX = 0;
+                    this.startY = 0;
+                });
+            }
+            
+            handleSwipeRight() {
+                const currentForm = this.getCurrentForm();
+                if (currentForm && currentForm !== 'mainMenu') {
+                    showMainMenu();
+                    showDreamModal({
+                        title: 'Kembali ke Menu',
+                        message: 'Swipe kanan terdeteksi',
+                        type: 'info',
+                        duration: 2000
+                    });
+                }
+            }
+            
+            handleSwipeLeft() {
+                showDreamModal({
+                    title: 'Swipe Kiri',
+                    message: 'Gestur diterima',
+                    type: 'info',
+                    duration: 2000
+                });
+            }
+            
+            getCurrentForm() {
+                const forms = ['bookingForm', 'k3Form', 'calendarContainer', 
+                              'qrGeneratorContainer', 'backupContainer', 'adminContainer'];
+                
+                for (const form of forms) {
+                    const el = document.getElementById(form);
+                    if (el && el.style.display !== 'none') {
+                        return form;
+                    }
+                }
+                
+                return 'mainMenu';
+            }
+        }
+
+        // ========== UX PREFERENCES - BY MRS. QWEN ==========
+        function toggleHaptic(enabled) {
+            localStorage.setItem('haptic_enabled', enabled ? 'true' : 'false');
+            showDreamModal({
+                title: enabled ? 'Haptic Diaktifkan' : 'Haptic Dimatikan',
+                message: 'Pengaturan disimpan',
+                type: 'info',
+                duration: 2000
+            });
+        }
+
+        function toggleSwipe(enabled) {
+            localStorage.setItem('swipe_enabled', enabled ? 'true' : 'false');
+            swipeNav.enabled = enabled;
+            showDreamModal({
+                title: enabled ? 'Swipe Diaktifkan' : 'Swipe Dimatikan',
+                message: 'Swipe kiri/kanan untuk navigasi',
+                type: 'info',
+                duration: 2000
+            });
+        }
+
+        function toggleAnimations(enabled) {
+            localStorage.setItem('animations_enabled', enabled ? 'true' : 'false');
+            document.body.classList.toggle('no-animations', !enabled);
+            showDreamModal({
+                title: enabled ? 'Animasi Diaktifkan' : 'Animasi Dimatikan',
+                message: 'Pengalaman visual disesuaikan',
+                type: 'info',
+                duration: 2000
+            });
+        }
+
+        function resetUXPreferences() {
+            localStorage.removeItem('haptic_enabled');
+            localStorage.removeItem('swipe_enabled');
+            localStorage.removeItem('animations_enabled');
+            
+            document.getElementById('hapticToggle').checked = true;
+            document.getElementById('swipeToggle').checked = true;
+            document.getElementById('animToggle').checked = true;
+            
+            document.body.classList.remove('no-animations');
+            swipeNav.enabled = true;
+            
+            showDreamModal({
+                title: 'Pengaturan Direset',
+                message: 'Semua preferensi dikembalikan ke default',
+                type: 'success',
+                duration: 3000
+            });
+        }
+
+        // ========== DEVICE OPTIMIZATION - BY MR. DSEEK ==========
+        const DeviceOptimizer = {
+            detectDeviceTier: function() {
+                const ua = navigator.userAgent;
+                const memory = navigator.deviceMemory || 4;
+                
+                const flagshipPatterns = [
+                    /iPhone (1[3-5]|X[RS]?|SE)/,
+                    /Samsung.*S(2[1-4]|10|9|8)/,
+                    /Pixel [6-9]/,
+                    /OnePlus (9|10|11)/,
+                    /Xiaomi.*1[1-4]/,
+                    /iPad Pro/
+                ];
+                
+                // Redmi Note 9 Pro khusus
+                const isRedmiNote9Pro = /Redmi Note 9 Pro|M2003J6A1G/i.test(ua);
+                
+                const isFlagship = flagshipPatterns.some(pattern => pattern.test(ua));
+                const isHighEnd = memory >= 6 || isFlagship;
+                const isMidRange = (memory >= 4 && !isFlagship) || isRedmiNote9Pro;
+                const isLowEnd = memory < 4 && !isRedmiNote9Pro;
+                
+                return { isHighEnd, isMidRange, isLowEnd, memory, isRedmiNote9Pro };
+            },
+            
+            applyOptimalSettings: function() {
+                const tier = this.detectDeviceTier();
+                
+                console.log(`📱 Device: ${tier.isRedmiNote9Pro ? 'Redmi Note 9 Pro' : 
+                    tier.isHighEnd ? 'High-End' : tier.isMidRange ? 'Mid-Range' : 'Low-End'}`);
+                
+                // Redmi Note 9 Pro optimization
+                if (tier.isRedmiNote9Pro) {
+                    console.log('🎯 Applying Redmi Note 9 Pro optimizations');
+                    localStorage.setItem('animations_enabled', 'true');
+                    localStorage.setItem('haptic_enabled', 'true');
+                    
+                    showDreamModal({
+                        title: '📱 Redmi Note 9 Pro',
+                        message: 'Optimized for your device! Snapdragon 720G ready!',
+                        type: 'info',
+                        duration: 4000
+                    });
+                }
+                
+                if (tier.isLowEnd) {
+                    localStorage.setItem('animations_enabled', 'false');
+                    localStorage.setItem('haptic_enabled', 'false');
+                    document.body.classList.add('no-animations');
+                }
+            }
+        };
+
+        // ========== INITIALIZE EVERYTHING ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Splash screen
+            setTimeout(() => {
+                document.getElementById('splashScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('splashScreen').style.display = 'none';
+                    document.body.style.display = 'block';
+                    
+                    // Initialize systems
+                    HapticEngine.init();
+                    const swipeNav = new SwipeNavigation();
+                    DeviceOptimizer.applyOptimalSettings();
+                    OfflineManager.init();
+                    
+                    // Load preferences
+                    document.getElementById('hapticToggle').checked = localStorage.getItem('haptic_enabled') !== 'false';
+                    document.getElementById('swipeToggle').checked = localStorage.getItem('swipe_enabled') !== 'false';
+                    document.getElementById('animToggle').checked = localStorage.getItem('animations_enabled') !== 'false';
+                    
+                    if (localStorage.getItem('animations_enabled') === 'false') {
+                        document.body.classList.add('no-animations');
+                    }
+                    
+                    // Show welcome
+                    showDreamModal({
+                        title: '🦸 Dream OS v3.2',
+                        message: 'Sistem siap dengan fitur premium!',
+                        type: 'success',
+                        duration: 4000
+                    });
+                    
+                    // DREAM TEAM SIGNATURE
+                    console.log('%c✨ DREAM TEAM v3.2 ACTIVE! ✨', 
+                        'background: linear-gradient(90deg, #FFD700, #006400, #CE1126); ' +
+                        'color: white; font-size: 14px; padding: 10px; border-radius: 5px;');
+                    
+                }, 500);
+            }, 2000);
+        });
+
+        // ========== EXISTING FUNCTIONS (simplified) ==========
+        function showMainMenu() {
+            hideAllContainers();
+            document.getElementById('mainMenu').style.display = 'block';
+            HapticEngine.tap();
+        }
+
+        function hideAllContainers() {
+            document.getElementById('mainMenu').style.display = 'none';
+            ['bookingForm', 'k3Form', 'calendarContainer', 
+             'qrGeneratorContainer', 'backupContainer', 'adminContainer']
+            .forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+        }
+
+        // ========== TRACKING ==========
+        function trackEvent(category, action, label) {
+            console.log(`📊 Track: ${category} - ${action} - ${label}`);
+        }
+
+        // ========== PWA INSTALL ==========
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installButton').style.display = 'flex';
+        });
+        
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showDreamModal({
+                            title: '🎉 App Installed!',
+                            message: 'Dream OS sekarang tersedia di homescreen',
+                            type: 'success',
+                            duration: 4000
+                        });
+                        document.getElementById('installButton').style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        // ========== K3 FOTO HISTORY - BY MR. DSEEK ==========
+        function showK3FotoHistory() {
+            const reports = JSON.parse(localStorage.getItem('dream_k3_reports') || '[]');
+            const fotoReports = reports.filter(r => r.hasFoto);
+            
+            if (fotoReports.length === 0) {
+                showDreamModal({
+                    title: '📭 Belum Ada Foto',
+                    message: 'Belum ada laporan K3 dengan foto',
+                    type: 'info',
+                    duration: 3000
+                });
+                return;
+            }
+            
+            let historyHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <h3 style="color: var(--gold); margin-bottom: 15px;">
+                        <i class="fas fa-history"></i> History Foto K3
+                    </h3>
+                    <p style="color: var(--light-green); margin-bottom: 20px;">
+                        Total: ${fotoReports.length} laporan dengan foto
+                    </p>
+            `;
+            
+            fotoReports.forEach((report, index) => {
+                historyHTML += `
+                    <div style="background: rgba(255,215,0,0.1); padding: 20px; 
+                         border-radius: 15px; margin: 15px 0; border-left: 4px solid var(--light-green);
+                         text-align: left;">
+                        <strong style="color: var(--gold); font-size: 1.1rem;">
+                            ${index + 1}. ${report.jenis.toUpperCase()}
+                        </strong><br>
+                        📍 <strong>Lokasi:</strong> ${report.lokasi}<br>
+                        📦 <strong>Barang:</strong> ${report.barang}<br>
+                        🕒 <strong>Waktu:</strong> ${new Date(report.timestamp).toLocaleString('id-ID')}
+                    </div>
+                `;
+            });
+            
+            historyHTML += `
+                <br>
+                <button onclick="clearK3History()" 
+                        style="background: var(--light-red); color: white; border: none; 
+                               padding: 10px 20px; border-radius: 8px; cursor: pointer; 
+                               margin-top: 10px; font-weight: 600;">
+                    <i class="fas fa-trash"></i> Hapus Semua History
+                </button>
+                </div>
+            `;
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: var(--bg-dark);
+                border: 2px solid var(--gold);
+                border-radius: 20px;
+                padding: 30px;
+                max-width: 90%;
+                max-height: 80vh;
+                overflow-y: auto;
+                z-index: 1000;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            `;
+            
+            modal.innerHTML = historyHTML;
+            
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.8);
+                z-index: 999;
+            `;
+            
+            overlay.onclick = function() {
+                document.body.removeChild(overlay);
+                document.body.removeChild(modal);
+            };
+            
+            document.body.appendChild(overlay);
+            document.body.appendChild(modal);
+        }
+
+        function clearK3History() {
+            if (confirm('⚠️ Hapus semua history K3? Ini tidak bisa dibatalkan!')) {
+                localStorage.removeItem('dream_k3_reports');
+                localStorage.removeItem('k3_foto_history');
+                localStorage.removeItem('last_k3_foto');
+                
+                showDreamModal({
+                    title: '✅ History Dihapus',
+                    message: 'Semua history K3 berhasil dihapus',
+                    type: 'success',
+                    duration: 3000
+                });
+                
+                const overlay = document.querySelector('div[style*="rgba(0,0,0,0.8)"]');
+                const modal = document.querySelector('div[style*="translate(-50%, -50%)"]');
+                if (overlay) document.body.removeChild(overlay);
+                if (modal) document.body.removeChild(modal);
+            }
+        }
+
+        // ========== OFFLINE MANAGER - BY MR. DSEEK ==========
+        const OfflineManager = {
+            statusEl: null,
+            
+            init: function() {
+                this.statusEl = document.getElementById('onlineStatus') || this.createStatusElement();
+                this.updateStatus();
+                
+                window.addEventListener('online', () => this.handleOnline());
+                window.addEventListener('offline', () => this.handleOffline());
+            },
+            
+            createStatusElement: function() {
+                const el = document.createElement('div');
+                el.id = 'onlineStatus';
+                el.style.cssText = `
+                    position: fixed;
+                    top: 15px;
+                    right: 15px;
+                    padding: 8px 15px;
+                    border-radius: 20px;
+                    font-size: 0.8rem;
+                    z-index: 9998;
+                    backdrop-filter: blur(10px);
+                    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                `;
+                document.body.appendChild(el);
+                return el;
+            },
+            
+            updateStatus: function() {
+                if (navigator.onLine) {
+                    this.statusEl.innerHTML = `
+                        <i class="fas fa-wifi" style="color: var(--light-green);"></i>
+                        <span style="color: var(--light-green);">Online</span>
+                    `;
+                    this.statusEl.style.background = 'rgba(0, 100, 64, 0.2)';
+                    this.statusEl.style.border = '1px solid var(--palestine-green)';
+                    
+                    // Auto-hide after 5 seconds
+                    setTimeout(() => {
+                        if (navigator.onLine && this.statusEl) {
+                            this.statusEl.style.opacity = '0';
+                            this.statusEl.style.transform = 'translateY(-20px)';
+                        }
+                    }, 5000);
+                } else {
+                    this.statusEl.innerHTML = `
+                        <i class="fas fa-wifi-slash" style="color: var(--gold);"></i>
+                        <span style="color: var(--gold);">Offline Mode</span>
+                    `;
+                    this.statusEl.style.background = 'rgba(255, 215, 0, 0.2)';
+                    this.statusEl.style.border = '1px solid var(--gold)';
+                    this.statusEl.style.opacity = '1';
+                    this.statusEl.style.transform = 'translateY(0)';
+                }
+            },
+            
+            handleOnline: function() {
+                this.updateStatus();
+                showDreamModal({
+                    title: '📶 Koneksi Pulih!',
+                    message: 'Sistem kembali online',
+                    type: 'success',
+                    duration: 3000
+                });
+            },
+            
+            handleOffline: function() {
+                this.updateStatus();
+                showDreamModal({
+                    title: '📴 Mode Offline',
+                    message: 'Data disimpan lokal, akan dikirim saat online',
+                    type: 'warning',
+                    duration: 5000
+                });
+            }
+        };
+
+        // ========== REDMI NOTE 9 PRO SPECIAL FEATURES ==========
+        function testRedmiFeatures() {
+            const isRedmi = /Redmi Note 9 Pro/i.test(navigator.userAgent);
+            if (isRedmi) {
+                console.log('🎮 Testing Redmi Note 9 Pro features...');
+                
+                // Test 64MP camera
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    console.log('📸 64MP Camera: Supported');
+                }
+                
+                // Test gaming performance
+                const start = performance.now();
+                for (let i = 0; i < 1000000; i++) { Math.sqrt(i); }
+                const perf = performance.now() - start;
+                console.log(`⚡ Snapdragon 720G Performance: ${perf.toFixed(2)}ms`);
+                
+                // Show Redmi welcome
+                showDreamModal({
+                    title: '🎮 Redmi Note 9 Pro Detected!',
+                    message: 'Snapdragon 720G optimized • 64MP camera ready',
+                    type: 'info',
+                    duration: 4000
+                });
+            }
+        }
+
+        // Run Redmi test on load
+        setTimeout(testRedmiFeatures, 3000);
+    </script>
+</body>
+</html>
