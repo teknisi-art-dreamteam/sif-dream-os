@@ -1,0 +1,3196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦸 Dream OS v3.1 - Universal Adaptive | SIF Al Fikri</title>
+    
+    <!-- === CACHE BUSTING META TAGS === -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="version" content="3.1.0-20241223">
+    
+    <!-- PWA CONFIG -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2D5D4B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Dream OS">
+    
+    <!-- === AUTO CACHE CLEAR SCRIPT === -->
+    <script>
+    (function() {
+        'use strict';
+        
+        console.log('🚀 Dream OS v3.1 - CACHE BUSTER EDITION LOADING...');
+        
+        // Current version - CHANGE THIS ON EACH UPDATE
+        const CURRENT_VERSION = '3.1.0-20241223';
+        
+        // Clear old service workers
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                for(let registration of registrations) {
+                    registration.unregister();
+                    console.log('🗑️ Service Worker unregistered');
+                }
+            });
+        }
+        
+        // Clear old caches
+        if ('caches' in window) {
+            caches.keys().then(function(cacheNames) {
+                cacheNames.forEach(function(cacheName) {
+                    caches.delete(cacheName);
+                    console.log('🗑️ Cache deleted:', cacheName);
+                });
+            });
+        }
+        
+        // Version check and force update
+        const storedVersion = localStorage.getItem('dream_os_version');
+        const urlParams = new URLSearchParams(window.location.search);
+        const forceUpdate = urlParams.get('force') === 'true';
+        
+        if (forceUpdate || storedVersion !== CURRENT_VERSION) {
+            console.log('🔄 Version update detected!');
+            console.log('Stored:', storedVersion, 'Current:', CURRENT_VERSION);
+            
+            // Clear all storage
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // Set new version
+            localStorage.setItem('dream_os_version', CURRENT_VERSION);
+            localStorage.setItem('last_update', new Date().toISOString());
+            
+            // Force reload if not already reloaded
+            if (!sessionStorage.getItem('has_reloaded')) {
+                sessionStorage.setItem('has_reloaded', 'true');
+                console.log('🔄 Forcing page reload...');
+                window.location.reload(true);
+            }
+        }
+        
+        // Add version to console
+        console.log('✅ Dream OS v' + CURRENT_VERSION + ' loaded');
+    })();
+    </script>
+    
+    <!-- FONTS & ICONS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- DREAM OS ADAPTIVE ENGINE v3.1 -->
+    <script>
+    (function() {
+        'use strict';
+        
+        console.log('🚀 Dream OS Adaptive Engine v3.1 Initializing...');
+        
+        // Deteksi device capability
+        const DreamEngine = {
+            // Device detection untuk low-end
+            isLowEndDevice: function() {
+                // User agent detection
+                const ua = navigator.userAgent;
+                
+                // Samsung low-end series (A, J, M series)
+                if (/SM-A1[0-9]|SM-A2[0-4]|SM-J[2-7]|SM-M[0-4]|SM-G[3-5][0-9]/i.test(ua)) return true;
+                
+                // Xiaomi/Redmi/POCO low-end
+                if (/Redmi\s*[0-9][A-C]|Redmi\s*[1-4][A-C]|Redmi\s*Go|Redmi\s*A|Mi\s*A[1-3]|POCO\s*[CM][0-3]/i.test(ua)) return true;
+                
+                // Oppo/Realme/Vivo low-end
+                if (/CPH[12][0-9]{3}|RMX[12][0-9]{3}|Vivo\s*Y[0-9]{2}|Vivo\s*[0-9]{4}/i.test(ua)) return true;
+                
+                // Nokia & lainnya
+                if (/Nokia\s*[1-4]\.?[0-9]|Nokia\s*C[0-2]|Nokia\s*G[0-4]/i.test(ua)) return true;
+                
+                // Memory detection
+                if (navigator.deviceMemory && navigator.deviceMemory <= 3) return true;
+                
+                // CPU cores detection
+                if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) return true;
+                
+                // Connection type
+                if (navigator.connection) {
+                    const conn = navigator.connection;
+                    if (conn.saveData === true) return true;
+                    if (conn.effectiveType && ['slow-2g', '2g', '3g'].includes(conn.effectiveType)) return true;
+                }
+                
+                return false;
+            },
+            
+            // Apply Lite Mode optimizations
+            applyLiteMode: function() {
+                console.log('📱 DREAM OS: Lite Mode activated for low-end device');
+                
+                // Add class to HTML
+                document.documentElement.classList.add('dream-lite');
+                
+                // Create optimization styles
+                const style = document.createElement('style');
+                style.id = 'dream-lite-styles';
+                style.textContent = `
+                    /* === DREAM OS LITE MODE OPTIMIZATIONS === */
+                    
+                    /* 1. DISABLE ALL ANIMATIONS & TRANSITIONS */
+                    .dream-lite * {
+                        animation: none !important;
+                        transition: none !important;
+                        transform: none !important;
+                        scroll-behavior: auto !important;
+                    }
+                    
+                    /* 2. SYSTEM FONTS ONLY - NO GOOGLE FONTS */
+                    .dream-lite body,
+                    .dream-lite .bismillah,
+                    .dream-lite .shalawat,
+                    .dream-lite .arabic-quote,
+                    .dream-lite .menu-card h3,
+                    .dream-lite .form-title,
+                    .dream-lite .leader-name,
+                    .dream-lite .team-title {
+                        font-family: -apple-system, BlinkMacSystemFont, 
+                                   'Segoe UI', Roboto, Oxygen, Ubuntu, 
+                                   Cantarell, sans-serif !important;
+                    }
+                    
+                    /* Arabic text fallback - use bold system font */
+                    .dream-lite .bismillah {
+                        font-size: 1.8rem !important;
+                        font-weight: 900 !important;
+                        letter-spacing: 2px !important;
+                        color: #FFD700 !important;
+                    }
+                    
+                    .dream-lite .shalawat {
+                        font-size: 1.2rem !important;
+                        font-weight: 700 !important;
+                    }
+                    
+                    /* 3. LARGER TOUCH TARGETS (65px+) */
+                    .dream-lite .menu-card,
+                    .dream-lite button,
+                    .dream-lite .submit-btn,
+                    .dream-lite .back-btn,
+                    .dream-lite .admin-btn,
+                    .dream-lite .calendar-nav-btn {
+                        min-height: 65px !important;
+                        min-width: 120px !important;
+                        padding: 20px 25px !important;
+                        font-size: 18px !important;
+                        margin: 12px 0 !important;
+                        touch-action: manipulation !important;
+                        -webkit-tap-highlight-color: transparent !important;
+                    }
+                    
+                    /* 4. SIMPLIFY GRADIENTS & SHADOWS */
+                    .dream-lite .spiritual-header {
+                        background: linear-gradient(to right, #000000, #006400) !important;
+                        animation: none !important;
+                    }
+                    
+                    .dream-lite .menu-card {
+                        background: rgba(30, 41, 59, 0.95) !important;
+                        border: 2px solid rgba(255, 215, 0, 0.3) !important;
+                        box-shadow: 0 6px 20px rgba(0,0,0,0.25) !important;
+                    }
+                    
+                    .dream-lite .menu-card:hover {
+                        transform: translateY(-5px) !important;
+                        box-shadow: 0 10px 25px rgba(0,0,0,0.35) !important;
+                    }
+                    
+                    /* 5. REMOVE GPU-INTENSIVE EFFECTS */
+                    .dream-lite .main-container,
+                    .dream-lite .tribute-section,
+                    .dream-lite .quote-section,
+                    .dream-lite .dream-team-section {
+                        backdrop-filter: none !important;
+                        -webkit-backdrop-filter: none !important;
+                        background: rgba(15, 23, 42, 0.95) !important;
+                    }
+                    
+                    /* 6. FORM OPTIMIZATIONS */
+                    .dream-lite input,
+                    .dream-lite select,
+                    .dream-lite textarea {
+                        min-height: 55px !important;
+                        font-size: 17px !important;
+                        padding: 16px 20px !important;
+                        border-width: 2px !important;
+                    }
+                    
+                    /* 7. CALENDAR OPTIMIZATIONS */
+                    .dream-lite .calendar-day-box {
+                        padding: 10px !important;
+                        min-height: 50px !important;
+                    }
+                    
+                    /* 8. PERFORMANCE OPTIMIZATIONS */
+                    .dream-lite * {
+                        will-change: auto !important;
+                        backface-visibility: visible !important;
+                        image-rendering: -webkit-optimize-contrast !important;
+                    }
+                    
+                    /* 9. TOUCH RESPONSE IMPROVEMENT */
+                    .dream-lite button:active,
+                    .dream-lite .menu-card:active {
+                        transform: scale(0.97) !important;
+                        transition: transform 0.1s !important;
+                    }
+                    
+                    /* 10. MEMORY OPTIMIZATION */
+                    .dream-lite img {
+                        loading: lazy !important;
+                    }
+                    
+                    /* 11. SIMPLIFY HEADER EFFECTS */
+                    .dream-lite .lafadz-arabic {
+                        font-size: 2.5rem !important;
+                    }
+                    
+                    .dream-lite .flags-center {
+                        font-size: 2.5rem !important;
+                        animation: none !important;
+                    }
+                    
+                    /* 12. BETTER CONTRAST FOR READABILITY */
+                    .dream-lite .leader-desc,
+                    .dream-lite .quote-desc,
+                    .dream-lite .menu-card p {
+                        color: #CBD5E1 !important;
+                        font-size: 15px !important;
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // Optimize font loading
+                this.optimizeFontLoading();
+                
+                // Show notification
+                this.showLiteModeNotification();
+            },
+            
+            optimizeFontLoading: function() {
+                // Remove Google Fonts link jika ada
+                const fontLinks = document.querySelectorAll('link[href*="fonts.googleapis.com"]');
+                fontLinks.forEach(link => {
+                    if (link.media === 'all' || !link.media) {
+                        link.media = 'none';
+                    }
+                });
+            },
+            
+            showLiteModeNotification: function() {
+                setTimeout(() => {
+                    if (!document.getElementById('lite-mode-notif')) {
+                        const notification = document.createElement('div');
+                        notification.id = 'lite-mode-notif';
+                        notification.innerHTML = `
+                            <div style="
+                                position: fixed;
+                                top: 20px;
+                                right: 20px;
+                                background: rgba(0, 100, 0, 0.95);
+                                color: white;
+                                padding: 15px 25px;
+                                border-radius: 12px;
+                                z-index: 9999;
+                                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                                border: 2px solid gold;
+                                max-width: 300px;
+                                animation: fadeIn 0.5s;
+                            ">
+                                <strong>📱 Dream OS Lite Mode</strong>
+                                <p style="margin: 8px 0 0; font-size: 0.9rem;">
+                                    Dioptimalkan untuk performa terbaik di perangkat Anda
+                                </p>
+                                <button onclick="this.parentElement.parentElement.remove(); localStorage.setItem('hide_lite_notif', 'true');" 
+                                        style="
+                                            background: gold;
+                                            color: black;
+                                            border: none;
+                                            padding: 5px 15px;
+                                            border-radius: 20px;
+                                            margin-top: 10px;
+                                            font-weight: bold;
+                                            cursor: pointer;
+                                        ">
+                                    OK
+                                </button>
+                            </div>
+                        `;
+                        document.body.appendChild(notification);
+                        
+                        // Auto remove after 5 seconds
+                        setTimeout(() => {
+                            if (notification.parentElement) {
+                                notification.remove();
+                            }
+                        }, 5000);
+                    }
+                }, 2000);
+            },
+            
+            // Check and apply on load
+            init: function() {
+                // Skip jika user sudah pilih manual
+                if (localStorage.getItem('force_dream_mode') === 'full') {
+                    console.log('🚀 User forced FULL mode');
+                    document.documentElement.classList.add('dream-full');
+                    return;
+                }
+                
+                if (localStorage.getItem('force_dream_mode') === 'lite') {
+                    console.log('📱 User forced LITE mode');
+                    this.applyLiteMode();
+                    return;
+                }
+                
+                // Auto detect
+                if (this.isLowEndDevice()) {
+                    this.applyLiteMode();
+                } else {
+                    console.log('🚀 DREAM OS: High-Performance Mode activated');
+                    document.documentElement.classList.add('dream-full');
+                }
+            }
+        };
+        
+        // Start the engine
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => DreamEngine.init());
+        } else {
+            DreamEngine.init();
+        }
+    })();
+    </script>
+    
+    <!-- SPLASH SCREEN CSS -->
+    <style>
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        
+        .splash-logo {
+            font-size: 4rem;
+            color: #FFD700;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .splash-text {
+            color: #FFD700;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .splash-subtext {
+            color: #94A3B8;
+            font-size: 1rem;
+        }
+        
+        .loading-dots:after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+    </style>
+    
+    <!-- MAIN STYLES -->
+    <style>
+        /* ========== ROOT VARIABLES ========== */
+        :root {
+            --palestine-black: #000000;
+            --indonesia-red: #CE1126;
+            --palestine-green: #006400;
+            --gold: #FFD700;
+            --light-green: #90EE90;
+            --light-red: #FF6B6B;
+            --bg-dark: #0F172A;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --text-light: #F8FAFC;
+            --text-gray: #94A3B8;
+            
+            /* Healing Green Variables */
+            --hijau-dasar: #E8F5E9;
+            --hijau-soft: #C8E6C9;
+            --hijau-medium: #A5D6A7;
+            --hijau-strong: #81C784;
+            --hijau-dark: #4CAF50;
+            --emas: #D4AF37;
+            --text-dark: #2C3E50;
+            --merah: #D32F2F;
+        }
+
+        /* ========== GLOBAL STYLES ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+            display: none; /* Sembunyikan dulu sampai splash selesai */
+        }
+
+        /* ========== MAIN CONTAINER ========== */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            backdrop-filter: blur(10px);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========== REVISED HEADER SECTION ========== */
+        .spiritual-header {
+            background: linear-gradient(135deg, 
+                var(--palestine-black) 0%, 
+                var(--indonesia-red) 50%, 
+                var(--palestine-green) 100%);
+            background-size: 400% 400%;
+            animation: gradientFlow 15s ease infinite;
+            padding: 30px 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Lafadz Allah dan Muhammad di atas */
+        .lafadz-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .lafadz-arabic {
+            font-family: 'Amiri', 'Scheherazade New', serif;
+            font-size: 3.5rem;
+            color: var(--gold);
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            flex: 1;
+        }
+
+        .lafadz-arabic:first-child {
+            text-align: left;
+        }
+
+        .lafadz-arabic:last-child {
+            text-align: right;
+        }
+
+        /* Bendera di tengah */
+        .flags-center {
+            font-size: 3.5rem;
+            margin: 10px 0;
+            animation: float 3s ease-in-out infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Teks di bawah bendera */
+        .header-subtitle {
+            font-size: 1.4rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Bismillah dan Shalawat */
+        .spiritual-text-container {
+            margin: 25px 0;
+        }
+
+        .bismillah {
+            font-family: 'Amiri', 'Scheherazade New', serif;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .shalawat {
+            font-family: 'Amiri', 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 15px;
+        }
+
+        /* Tribute to Leaders */
+        .tribute-section {
+            background: rgba(255, 215, 0, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px auto;
+            max-width: 900px;
+            border: 2px solid var(--gold);
+            backdrop-filter: blur(10px);
+        }
+
+        .tribute-title {
+            color: var(--gold);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .leader-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid;
+            transition: transform 0.3s;
+        }
+
+        .leader-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .leader-card.hanung {
+            border-color: var(--palestine-green);
+            background: rgba(0, 100, 64, 0.2);
+        }
+
+        .leader-card.erwin {
+            border-color: var(--indonesia-red);
+            background: rgba(206, 17, 38, 0.2);
+        }
+
+        .leader-name {
+            font-size: 1.5rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .leader-title {
+            font-size: 1.1rem;
+            color: var(--light-green);
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+
+        .leader-desc {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+        }
+
+        /* Arabic Quote */
+        .quote-section {
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 800px;
+            border: 2px dashed var(--gold);
+        }
+
+        .arabic-quote {
+            font-family: 'Amiri', 'Scheherazade New', serif;
+            font-size: 1.6rem;
+            color: var(--gold);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .quote-translation {
+            font-size: 1.2rem;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .quote-desc {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+        }
+
+        /* Main Title */
+        .main-title {
+            margin: 30px 0;
+        }
+
+        .dream-title {
+            font-size: 3.2rem;
+            background: linear-gradient(90deg, var(--gold), white, var(--light-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Dream Team */
+        .dream-team-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 1000px;
+        }
+
+        .team-title {
+            font-size: 1.9rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .team-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 2px solid;
+            transition: all 0.3s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .member-m { border-color: var(--light-green); }
+        .member-d { border-color: var(--light-red); }
+        .member-q { border-color: var(--gold); }
+
+        .member-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .member-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .member-role {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+        }
+
+        .team-slogan {
+            font-size: 1.3rem;
+            color: var(--gold);
+            text-align: center;
+            font-style: italic;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Closing */
+        .closing-section {
+            font-size: 1.4rem;
+            color: white;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        /* ========== MAIN MENU SECTION ========== */
+        .main-menu-section {
+            padding: 50px 40px;
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .menu-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+            border-radius: 20px;
+            padding: 35px 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.05), transparent);
+            transition: 0.6s;
+        }
+
+        .menu-card:hover::before {
+            left: 100%;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .menu-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            color: var(--gold);
+        }
+
+        .menu-card.booking .menu-icon { color: var(--light-green); }
+        .menu-card.k3 .menu-icon { color: var(--light-red); }
+        .menu-card.inventaris .menu-icon { color: var(--gold); }
+        .menu-card.calendar .menu-icon { color: #06B6D4; }
+        .menu-card.backup .menu-icon { color: #8B5CF6; }
+        .menu-card.qrcode .menu-icon { color: #4CAF50; }
+        .menu-card.admin .menu-icon { color: #F59E0B; }
+
+        .menu-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .menu-card p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .menu-note {
+            display: block;
+            margin-top: 15px;
+            color: #F59E0B;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* ========== FORM STYLES ========== */
+        .form-container {
+            display: none;
+            padding: 40px;
+            background: rgba(30, 41, 59, 0.95);
+            border-radius: 20px;
+            margin: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-title {
+            color: var(--gold);
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--light-green);
+            font-size: 1rem;
+        }
+
+        .form-group label i {
+            margin-right: 8px;
+            color: var(--gold);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--gold);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Grid untuk tanggal & waktu */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        /* Emergency Box */
+        .emergency-box {
+            background: rgba(211, 47, 47, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+            border: 1px solid rgba(211, 47, 47, 0.3);
+        }
+
+        .emergency-box strong {
+            color: var(--light-red);
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .emergency-box a {
+            color: var(--light-red);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .emergency-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Submit Buttons */
+        .submit-btn {
+            background: linear-gradient(to right, var(--palestine-green), var(--hijau-dark));
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 8px 20px rgba(0, 100, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 100, 0, 0.4);
+        }
+
+        .submit-btn.k3-btn {
+            background: linear-gradient(to right, #FF9800, #FFB74D);
+        }
+
+        /* Back Button */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* ========== CALENDAR EXTENDED STYLES ========== */
+        .calendar-full-container {
+            background: rgba(30, 41, 59, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 2px solid var(--gold);
+        }
+
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .calendar-nav-btn {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .calendar-nav-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .calendar-current-month {
+            font-size: 1.8rem;
+            color: white;
+            font-weight: 700;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .calendar-days-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .day-header {
+            text-align: center;
+            color: var(--gold);
+            font-weight: 600;
+            padding: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .calendar-days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .calendar-day-box {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calendar-day-box:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .calendar-day-box.empty {
+            background: rgba(144, 238, 144, 0.1);
+            border-color: rgba(144, 238, 144, 0.3);
+        }
+
+        .calendar-day-box.partial {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .calendar-day-box.full {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        .calendar-day-box.weekend {
+            background: rgba(206, 17, 38, 0.1);
+            border-color: rgba(206, 17, 38, 0.3);
+        }
+
+        .day-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .day-events {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .event-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--palestine-green);
+        }
+
+        .event-dot.k3 {
+            background: var(--light-red);
+        }
+
+        .event-dot.booking {
+            background: var(--light-green);
+        }
+
+        .day-booking-count {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--gold);
+            color: black;
+            font-size: 0.7rem;
+            font-weight: 700;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ========== QR CODE GENERATOR STYLES ========== */
+        .qr-generator-container {
+            background: linear-gradient(135deg, rgba(45, 93, 75, 0.9), rgba(30, 41, 59, 0.9));
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 2px solid var(--gold);
+        }
+
+        .qr-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .qr-type-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .qr-type-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+
+        .qr-type-card.active {
+            border-color: var(--palestine-green);
+            background: rgba(0, 100, 64, 0.2);
+        }
+
+        .qr-type-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .qr-type-card.booking .qr-type-icon { color: var(--light-green); }
+        .qr-type-card.facility .qr-type-icon { color: var(--gold); }
+        .qr-type-card.emergency .qr-type-icon { color: var(--light-red); }
+        .qr-type-card.custom .qr-type-icon { color: #8B5CF6; }
+
+        .qr-preview-container {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .qr-code-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 15px;
+            border: 5px solid white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            margin: 0 auto 20px;
+        }
+
+        .qr-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .qr-action-btn {
+            background: var(--palestine-green);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .qr-action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 100, 0, 0.3);
+        }
+
+        .qr-action-btn.download {
+            background: var(--gold);
+            color: black;
+        }
+
+        .qr-action-btn.print {
+            background: #6D28D9;
+        }
+
+        /* ========== BACKUP SYSTEM STYLES ========== */
+        .backup-container {
+            background: rgba(30, 41, 59, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 2px solid #8B5CF6;
+        }
+
+        .backup-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .backup-option {
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .backup-option:hover {
+            transform: translateY(-5px);
+            border-color: #8B5CF6;
+        }
+
+        .backup-icon {
+            font-size: 3rem;
+            color: #8B5CF6;
+            margin-bottom: 15px;
+        }
+
+        .backup-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .backup-stat {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        /* ========== ADMIN PANEL STYLES ========== */
+        .admin-container {
+            background: rgba(30, 41, 59, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+            border: 2px solid #F59E0B;
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .admin-stat-card {
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .admin-stat-icon {
+            font-size: 2.5rem;
+            color: #F59E0B;
+            margin-bottom: 15px;
+        }
+
+        .admin-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .admin-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .admin-btn:hover {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: #F59E0B;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 40px;
+            text-align: center;
+            border-top: 2px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .footer-title {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .footer-column h4 {
+            color: var(--light-green);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer-column p {
+            color: var(--text-gray);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .copyright a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        /* ========== INSTALL BUTTON ========== */
+        .install-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--palestine-green), var(--hijau-dark));
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 100, 0, 0.3);
+            display: none;
+            z-index: 1000;
+            align-items: center;
+            gap: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* ========== PERFORMANCE MODE TOGGLE ========== */
+        .performance-toggle {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: rgba(30, 41, 59, 0.9);
+            color: var(--gold);
+            border: 2px solid var(--gold);
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .lafadz-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .lafadz-arabic {
+                font-size: 2.5rem;
+                text-align: center !important;
+            }
+            
+            .flags-center {
+                font-size: 2.5rem;
+            }
+            
+            .bismillah { font-size: 1.5rem; }
+            .shalawat { font-size: 1.2rem; }
+            .dream-title { font-size: 2.2rem; }
+            .main-menu-section { padding: 30px 20px; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .team-members { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .form-container { padding: 20px; margin: 10px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .calendar-days-grid { grid-template-columns: repeat(7, 1fr); gap: 8px; }
+            .calendar-day-box { padding: 8px; }
+            .day-number { font-size: 1.2rem; }
+            .qr-types-grid, .backup-options, .admin-stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .qr-code-image { width: 200px; height: 200px; }
+            .install-btn, .performance-toggle {
+                bottom: 10px;
+                right: 10px;
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            .performance-toggle {
+                bottom: 70px;
+            }
+        }
+
+        /* ========== SCROLLBAR ========== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFC107;
+        }
+    </style>
+</head>
+<body>
+    <!-- SPLASH SCREEN -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-logo">🦸</div>
+        <div class="splash-text">Dream OS v3.1</div>
+        <div class="splash-subtext">Universal Cache-Busting Edition</div>
+        <div class="splash-subtext loading-dots">Loading</div>
+    </div>
+
+    <!-- PERFORMANCE MODE TOGGLE -->
+    <button class="performance-toggle" id="perfToggle" onclick="togglePerformanceMode()">
+        <span id="perfIcon">⚡</span>
+        <span id="perfText">Mode</span>
+    </button>
+
+    <!-- INSTALL BUTTON -->
+    <button class="install-btn" id="installButton" onclick="installApp()">
+        <i class="fas fa-download"></i> Install App
+    </button>
+
+    <!-- ========== MAIN CONTAINER ========== -->
+    <div class="main-container">
+        
+        <!-- ========== REVISED HEADER SECTION ========== -->
+        <div class="spiritual-header">
+            <!-- Lafadz Allah dan Muhammad di atas -->
+            <div class="lafadz-container">
+                <div class="lafadz-arabic">مُحَمَّدٌ</div>
+                <div class="flags-center">
+                    <span>🇵🇸</span>
+                    <span>❤️</span>
+                    <span>🇮🇩</span>
+                </div>
+                <div class="lafadz-arabic">ﷲ</div>
+            </div>
+            
+            <!-- Teks General Affairs Department -->
+            <div class="header-subtitle">
+                GENERAL AFFAIRS DEPARTMENT
+            </div>
+            
+            <!-- Bismillah dan Shalawat -->
+            <div class="spiritual-text-container">
+                <div class="bismillah">
+                    بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+                </div>
+                
+                <div class="shalawat">
+                    اَللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَعَلَى آلِ سَيِّدِنَا مُحَمَّدٍ
+                </div>
+            </div>
+            
+            <!-- Tribute to Leaders -->
+            <div class="tribute-section">
+                <div class="tribute-title">
+                    🏆 HONORING OUR GENERAL AFFAIRS LEADERS 🏆
+                </div>
+                
+                <!-- Pak Hanung -->
+                <div class="leader-card hanung">
+                    <div class="leader-name">
+                        <span style="color: var(--light-green);">🌟</span> Mr. Hanung Budianto, S.E.
+                    </div>
+                    <div class="leader-title">
+                        "The General Affairs Commander" • Head of General Affairs
+                    </div>
+                    <div class="leader-desc">
+                        Chief Administrator & Strategic Planner of SIF Al Fikri
+                    </div>
+                </div>
+                
+                <!-- Pak Erwin -->
+                <div class="leader-card erwin">
+                    <div class="leader-name">
+                        <span style="color: var(--light-red);">🎯</span> Mr. Erwin Syah
+                    </div>
+                    <div class="leader-title">
+                        "The Operations Maestro" • General Affairs Coordinator
+                    </div>
+                    <div class="leader-desc">
+                        Master of Daily Operations & Facility Excellence
+                    </div>
+                </div>
+                
+                <div style="font-size: 0.9rem; color: var(--text-gray); margin-top: 15px; font-style: italic;">
+                    This digital system is dedicated to streamlining your General Affairs operations
+                </div>
+            </div>
+            
+            <!-- Arabic Quote -->
+            <div class="quote-section">
+                <div class="arabic-quote">
+                    خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ
+                </div>
+                <div class="quote-translation">
+                    "The Best Among People Are Those Who Benefit Others"
+                </div>
+                <div class="quote-desc">
+                    Guiding principle for SIF Al Fikri's General Affairs Department
+                </div>
+            </div>
+            
+            <!-- Main Title -->
+            <div class="main-title">
+                <h1 class="dream-title">
+                    🦸 DREAM OS v3.1
+                </h1>
+                <div class="subtitle">
+                    UNIVERSAL CACHE-BUSTING EDITION
+                </div>
+            </div>
+            
+            <!-- Dream Team -->
+            <div class="dream-team-section">
+                <div class="team-title">
+                    ⚡ THE DREAM TEAM ⚡
+                </div>
+                
+                <div class="team-members">
+                    <div class="team-member member-m">
+                        <div class="member-icon">⚡</div>
+                        <div class="member-name">Mr. M</div>
+                        <div class="member-role">System Architect</div>
+                    </div>
+                    
+                    <div class="team-member member-d">
+                        <div class="member-icon">🎯</div>
+                        <div class="member-name">Mr. DSeek</div>
+                        <div class="member-role">Lead Developer</div>
+                    </div>
+                    
+                    <div class="team-member member-q">
+                        <div class="member-icon">💬</div>
+                        <div class="member-name">Mrs. Qwen</div>
+                        <div class="member-role">AI & Strategy Consultant<br><small>(The Vocal One bawel😄)</small></div>
+                    </div>
+                </div>
+                
+                <div class="team-slogan">
+                    Powered by The Soul of Shalawat • Built to Bust Cache!
+                </div>
+            </div>
+            
+            <!-- Closing -->
+            <div class="closing-section">
+                🕌 Dedicated to Streamlining SIF Al Fikri's General Affairs 🕌
+            </div>
+        </div>
+        
+        <!-- ========== MAIN MENU SECTION ========== -->
+        <div class="main-menu-section" id="mainMenu">
+            <h2 class="section-title">
+                🚀 SYSTEM FEATURES
+            </h2>
+            
+            <div class="menu-grid">
+                <!-- Booking System -->
+                <div class="menu-card booking" onclick="showForm('booking')">
+                    <div class="menu-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Form Booking</h3>
+                    <p>Booking fasilitas sekolah dengan SOP lengkap dan validasi otomatis. Anti double-booking system dan integrasi WhatsApp langsung ke Pak Erwin.</p>
+                    <span class="menu-note">
+                        <i class="fas fa-clock"></i> Jam operasional: 07.30 - 16.00 WIB
+                    </span>
+                </div>
+                
+                <!-- K3 Reporting -->
+                <div class="menu-card k3" onclick="showForm('k3')">
+                    <div class="menu-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Form K3</h3>
+                    <p>Laporan Kerusakan, Kehilangan, dan Kejadian penting di lingkungan sekolah. Dilengkapi dengan bukti foto dan notifikasi real-time.</p>
+                    <span class="menu-note">
+                        <i class="fas fa-shield-alt"></i> Untuk hal-hal yang perlu penanganan segera
+                    </span>
+                </div>
+                
+                <!-- Inventaris -->
+                <div class="menu-card inventaris" onclick="requestPassword()">
+                    <div class="menu-icon">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <h3>Form Inventaris</h3>
+                    <p>Data inventaris sekolah yang terproteksi dengan sistem password. Hanya admin terpilih yang dapat mengakses database lengkap.</p>
+                    <span class="menu-note">
+                        <i class="fas fa-lock"></i> Password protected - Admin only
+                    </span>
+                </div>
+                
+                <!-- Calendar 30 Days -->
+                <div class="menu-card calendar" onclick="showFullCalendar()">
+                    <div class="menu-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Kalender 30 Hari</h3>
+                    <p>Lihat jadwal booking 30 hari ke depan dalam tampilan visual yang interaktif. Dapat melihat hari yang penuh, sebagian, atau kosong.</p>
+                    <span class="menu-note">
+                        <i class="fas fa-eye"></i> Preview availability for planning
+                    </span>
+                </div>
+                
+                <!-- QR Code Generator -->
+                <div class="menu-card qrcode" onclick="showQRGenerator()">
+                    <div class="menu-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3>QR Code Generator</h3>
+                    <p>Buat QR Code untuk booking, fasilitas, emergency contact, dan custom teks. Download dan share dengan mudah.</p>
+                    <span class="menu-note">
+                        <i class="fas fa-bolt"></i> Instant generate & download
+                    </span>
+                </div>
+                
+                <!-- Data Backup -->
+                <div class="menu-card backup" onclick="showBackupSystem()">
+                    <div class="menu-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Data Backup & Export</h3>
+                    <p>Backup otomatis semua data ke format JSON/CSV untuk migrasi ke Uniapp. Ekspor data booking, K3, dan inventaris dengan satu klik.</p>
+                    <span class="menu-note">
+                        <i class="fas fa-file-export"></i> Export to JSON, CSV, PDF
+                    </span>
+                </div>
+                
+                <!-- Admin Panel -->
+                <div class="menu-card admin" onclick="showAdminPanel()">
+                    <div class="menu-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Admin Panel</h3>
+                    <p>Akses khusus untuk pengelolaan sistem lengkap. Monitoring real-time, analytics, dan pengaturan sistem.</p>
+                    <span class="menu-note">
+                        <i class="fas fa-chart-line"></i> Real-time analytics & controls
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Contact Support Card -->
+            <div style="background: rgba(255,215,0,0.1); border-radius: 15px; padding: 25px; margin-top: 40px;">
+                <h4 style="color: var(--gold); margin-bottom: 15px; text-align: center;">
+                    <i class="fas fa-headset"></i> Support & Contact
+                </h4>
+                <div style="display: grid; grid-template-columns: 1fr; gap: 12px; max-width: 400px; margin: 0 auto;">
+                    <a href="mailto:teknisi@alfikri.sch.id" 
+                       style="background: rgba(0,100,64,0.2); color: var(--light-green); 
+                              padding: 15px; border-radius: 10px; text-decoration: none;
+                              display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-tools"></i> teknisi@alfikri.sch.id
+                    </a>
+                    <a href="mailto:dreamos.sch.id@gmail.com" 
+                       style="background: rgba(255,215,0,0.2); color: var(--gold); 
+                              padding: 15px; border-radius: 10px; text-decoration: none;
+                              display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-cogs"></i> dreamos.sch.id@gmail.com
+                    </a>
+                    <a href="https://wa.me/628886183954" 
+                       style="background: rgba(206,17,38,0.2); color: var(--light-red); 
+                              padding: 15px; border-radius: 10px; text-decoration: none;
+                              display: flex; align-items: center; gap: 10px;">
+                        <i class="fab fa-whatsapp"></i> Pak Erwin: 0888-6183-954
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Version Info -->
+            <div style="text-align: center; margin-top: 30px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                <p style="color: var(--text-gray); font-size: 0.9rem;">
+                    <i class="fas fa-code-branch"></i> Version: 3.1.0-20241223 | 
+                    <i class="fas fa-microchip"></i> Mode: <span id="currentModeText">Loading...</span> | 
+                    <button onclick="clearAllCache()" style="background: none; border: 1px solid var(--gold); color: var(--gold); 
+                           padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; cursor: pointer;">
+                        <i class="fas fa-broom"></i> Clear Cache
+                    </button>
+                </p>
+            </div>
+        </div>
+        
+        <!-- ========== FORM CONTAINERS ========== -->
+        
+        <!-- FORM BOOKING -->
+        <div id="bookingForm" class="form-container">
+            <h2 class="form-title"><i class="fas fa-calendar-alt"></i> Form Booking Fasilitas</h2>
+            
+            <form id="bookingFormElement" onsubmit="submitBooking(event)">
+                <div class="form-group">
+                    <label for="nama"><i class="fas fa-user"></i> Nama Lengkap *</label>
+                    <input type="text" id="nama" placeholder="Masukkan nama lengkap" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="divisi"><i class="fas fa-building"></i> Divisi *</label>
+                    <select id="divisi" required>
+                        <option value="">-- Pilih Divisi --</option>
+                        <option value="SD">SD</option>
+                        <option value="SMP">SMP</option>
+                        <option value="SMA">SMA</option>
+                        <option value="UMUM">UMUM</option>
+                        <option value="OSIS">OSIS</option>
+                        <option value="GURU">GURU</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="whatsapp"><i class="fab fa-whatsapp"></i> Nomor WhatsApp *</label>
+                    <input type="tel" id="whatsapp" placeholder="08123456789" pattern="[0-9]{10,13}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="sarana"><i class="fas fa-building"></i> Sarana yang Dipesan *</label>
+                    <select id="sarana" required>
+                        <option value="">-- Pilih Sarana --</option>
+                        <optgroup label="🏢 Aula & Serbaguna">
+                            <option value="Aula SMP - sound, lighting, ac, projector (include)">1. Aula SMP - sound, lighting, ac, projector (include)</option>
+                            <option value="Aula SMA - sound, projector (include)">2. Aula SMA - sound, projector (include)</option>
+                            <option value="Saung Besar - sound (include)">3. Saung Besar - sound (include)</option>
+                            <option value="Saung Kecil">4. Saung Kecil</option>
+                            <option value="Masjid - sound (🔧 MAINTENANCE - TIDAK BISA DIBOOKING)" disabled style="color: #FF6B6B; background: rgba(255, 107, 107, 0.1);">
+                                5. Masjid - sound (🔧 MAINTENANCE - TIDAK BISA DIBOOKING)
+                            </option>
+                            <option value="Serbaguna - sound (include)">6. Serbaguna - sound (include)</option>
+                        </optgroup>
+                        <optgroup label="💻 Lab Komputer">
+                            <option value="Labkom SD">7. Labkom SD</option>
+                            <option value="Labkom SMP">8. Labkom SMP</option>
+                            <option value="Labkom SMA">9. Labkom SMA</option>
+                        </optgroup>
+                        <optgroup label="🏀 Lapangan & Area">
+                            <option value="Lapangan Volley">10. Lapangan Volley</option>
+                            <option value="Lapangan Basket">11. Lapangan Basket</option>
+                            <option value="Lapangan SMA">12. Lapangan SMA</option>
+                            <option value="Lapangan Tanah">13. Lapangan Tanah</option>
+                        </optgroup>
+                        <optgroup label="🍽️ Kantin & Perpustakaan">
+                            <option value="Kantin SMP">14. Kantin SMP</option>
+                            <option value="Kantin SMA">15. Kantin SMA</option>
+                            <option value="Perpus SD">16. Perpus SD</option>
+                            <option value="Perpus SMP">17. Perpus SMP</option>
+                            <option value="Perpus SMA">18. Perpus SMA</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="tanggal"><i class="fas fa-calendar-day"></i> Tanggal *</label>
+                        <input type="date" id="tanggal" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="waktuMulai"><i class="fas fa-clock"></i> Waktu Mulai *</label>
+                        <input type="time" id="waktuMulai" min="07:30" max="16:00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="waktuSelesai"><i class="fas fa-clock"></i> Waktu Selesai *</label>
+                        <input type="time" id="waktuSelesai" min="07:30" max="16:00" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="keterangan"><i class="fas fa-sticky-note"></i> Keterangan Kegiatan *</label>
+                    <textarea id="keterangan" rows="3" placeholder="Contoh: Rapat OSIS, Pelajaran TIK, Lomba, dll." required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fab fa-whatsapp"></i> Kirim ke Pak Erwinsyah
+                </button>
+                
+                <button type="button" onclick="showMainMenu()" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Menu Utama
+                </button>
+            </form>
+            
+            <!-- CANCEL BOOKING BUTTON -->
+            <div style="text-align: center; margin: 30px 0;">
+                <button onclick="smartCancelBooking()"
+                        style="
+                            width: 90%;
+                            max-width: 400px;
+                            margin: 0 auto;
+                            display: block;
+                            background: linear-gradient(to right, #FF5252, #FF8A80);
+                            color: white;
+                            border: none;
+                            padding: 15px;
+                            border-radius: 10px;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            cursor: pointer;
+                            box-shadow: 0 5px 15px rgba(255, 82, 82, 0.3);
+                        ">
+                    🚫 Batalkan Booking
+                </button>
+                <p style="color: var(--text-gray); font-size: 0.9rem; margin-top: 10px;">
+                    Klik untuk buka WhatsApp ke Pak Erwin dengan template
+                </p>
+            </div>
+        </div>
+        
+        <!-- FORM K3 -->
+        <div id="k3Form" class="form-container">
+            <h2 class="form-title"><i class="fas fa-exclamation-triangle"></i> Form K3 (Laporan)</h2>
+            
+            <div class="emergency-box">
+                <strong>🆘 Emergency Contact:</strong><br>
+                Pak Erwinsyah: 
+                <a href="https://wa.me/628886183954" style="color:var(--light-red); text-decoration:none; font-weight:600;">
+                    📱 0888-6183 direct WhatsApp
+                </a><br>
+                <small>(Jam kerja: 07.30-16.00 WIB)</small>
+            </div>
+            
+            <!-- History Button -->
+            <button onclick="showK3FotoHistory()" 
+                    style="
+                        width: 100%;
+                        background: rgba(255, 215, 0, 0.1);
+                        color: var(--gold);
+                        border: 1px solid var(--gold);
+                        padding: 12px 24px;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        font-size: 1rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                        margin: 20px 0;
+                        transition: all 0.3s;
+                    "
+                    onmouseover="this.style.background='rgba(255, 215, 0, 0.2)';"
+                    onmouseout="this.style.background='rgba(255, 215, 0, 0.1)';">
+                <i class="fas fa-history"></i> Lihat History Foto K3
+            </button>
+            
+            <form id="k3FormElement" onsubmit="submitK3(event)">
+                <div class="form-group">
+                    <label for="jenisK3"><i class="fas fa-clipboard-list"></i> Jenis Laporan *</label>
+                    <select id="jenisK3" required>
+                        <option value="">-- Pilih Jenis --</option>
+                        <option value="Kerusakan">Kerusakan (diteruskan ke Maintenance)</option>
+                        <option value="Kehilangan">Kehilangan (diteruskan ke Security)</option>
+                        <option value="Kebersihan">Kebersihan (kebun, toilet, sampah)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lokasiK3"><i class="fas fa-map-marker-alt"></i> Lokasi Kejadian *</label>
+                    <input type="text" id="lokasiK3" placeholder="Contoh: Lab Komputer 1, Aula SMP" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="barangK3"><i class="fas fa-box"></i> Barang / Jenis Masalah *</label>
+                    <input type="text" id="barangK3" placeholder="Contoh: AC rusak, Kursi patah" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deskripsiK3"><i class="fas fa-align-left"></i> Deskripsi Detail *</label>
+                    <textarea id="deskripsiK3" rows="4" placeholder="Jelaskan secara detail apa yang terjadi..." required></textarea>
+                </div>
+                
+                <!-- Foto Upload Section -->
+                <div class="form-group">
+                    <label for="fotoK3"><i class="fas fa-camera"></i> Upload Foto Bukti (Opsional)</label>
+                    <div style="
+                        background: rgba(255, 215, 0, 0.05);
+                        border: 2px dashed var(--gold);
+                        border-radius: 15px;
+                        padding: 25px;
+                        margin: 10px 0;
+                        text-align: center;
+                        cursor: pointer;
+                        transition: all 0.3s;
+                    " 
+                    onclick="document.getElementById('fotoK3').click()"
+                    onmouseover="this.style.background='rgba(255, 215, 0, 0.1)'; this.style.borderColor='var(--light-green)';"
+                    onmouseout="this.style.background='rgba(255, 215, 0, 0.05)'; this.style.borderColor='var(--gold)';">
+                        <div style="font-size: 3rem; color: var(--gold); margin-bottom: 15px;">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <div style="font-size: 1.2rem; color: var(--gold); margin-bottom: 15px;">
+                            Klik untuk upload foto
+                        </div>
+                        <small style="color: var(--text-gray); display: block;">
+                            Maksimal 5MB (JPG, PNG, JPEG)
+                        </small>
+                        <input type="file" id="fotoK3" style="display: none;" 
+                               accept="image/*" onchange="previewK3Foto(event)">
+                    </div>
+                    <small style="color: var(--text-gray); display: block; margin-top: 5px;">
+                        <i class="fas fa-info-circle"></i> Foto akan dikirim ke WhatsApp untuk bukti visual
+                    </small>
+                </div>
+                
+                <!-- Preview Foto -->
+                <div id="fotoPreviewContainer" style="display: none; margin: 25px 0; text-align: center;">
+                    <p style="color: var(--light-green); margin-bottom: 15px; font-size: 1.1rem;">
+                        <i class="fas fa-image"></i> Preview Foto:
+                    </p>
+                    <img id="fotoPreview" src="#" alt="Preview Foto" 
+                         style="
+                            max-width: 100%;
+                            max-height: 300px;
+                            border-radius: 12px;
+                            border: 3px solid var(--gold);
+                            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                            margin: 15px 0;
+                         ">
+                    <button type="button" onclick="removeFoto()" 
+                            style="
+                                background: linear-gradient(to right, #FF5252, #FF8A80);
+                                color: white;
+                                border: none;
+                                padding: 10px 20px;
+                                border-radius: 8px;
+                                font-weight: 600;
+                                cursor: pointer;
+                                display: inline-flex;
+                                align-items: center;
+                                gap: 8px;
+                                margin-top: 10px;
+                                transition: all 0.3s;
+                            "
+                            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(255, 82, 82, 0.4)';"
+                            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                        <i class="fas fa-trash"></i> Hapus Foto
+                    </button>
+                </div>
+                
+                <button type="submit" class="submit-btn k3-btn">
+                    <i class="fas fa-paper-plane"></i> Laporkan ke Tim Terkait
+                </button>
+                
+                <button type="button" onclick="showMainMenu()" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Menu Utama
+                </button>
+            </form>
+        </div>
+        
+        <!-- FORM KALENDER -->
+        <div id="calendarContainer" class="form-container">
+            <!-- Content akan diisi oleh JavaScript -->
+        </div>
+        
+        <!-- FORM QR CODE GENERATOR -->
+        <div id="qrGeneratorContainer" class="form-container">
+            <!-- Content akan diisi oleh JavaScript -->
+        </div>
+        
+        <!-- FORM BACKUP SYSTEM -->
+        <div id="backupContainer" class="form-container">
+            <!-- Content akan diisi oleh JavaScript -->
+        </div>
+        
+        <!-- FORM ADMIN PANEL -->
+        <div id="adminContainer" class="form-container">
+            <!-- Content akan diisi oleh JavaScript -->
+        </div>
+        
+        <!-- ========== FOOTER ========== -->
+        <div class="footer">
+            <div class="footer-title">
+                <span>🌟</span> DREAM OS v3.1 <span>🌟</span>
+            </div>
+            
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>Approval System</h4>
+                    <p><strong>Pak Hanung Budianto, S.E.</strong></p>
+                    <p>Head of General Affairs</p>
+                    <p><strong>Pak Erwin Syah</strong></p>
+                    <p>General Affairs Coordinator</p>
+                    <p><strong>Email Support:</strong></p>
+                    <p>teknisi@alfikri.sch.id</p>
+                    <p>dreamos.sch.id@gmail.com</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>System Features</h4>
+                    <p>• Adaptive Engine (Auto-detect device)</p>
+                    <p>• Booking Management</p>
+                    <p>• K3 Reporting with Photos</p>
+                    <p>• Inventory System (Password Protected)</p>
+                    <p>• 30-Day Calendar View</p>
+                    <p>• QR Code Generator</p>
+                    <p>• Data Backup & Export</p>
+                    <p>• Admin Panel (Password: b15m1ll4h_@dm1n_2025)</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Contact & Support</h4>
+                    <p>📍 Jl. Raden Saleh, Sukmajaya, Depok</p>
+                    <p>🏫 SIF Al Fikri - Sekolah Islam Fitrah</p>
+                    <p>📧 teknisi@alfikri.sch.id</p>
+                    <p>📧 dreamos.sch.id@gmail.com</p>
+                    <p>📱 Pak Erwin: 0888-6183-954</p>
+                    <p>⚡ Version: 3.1 Cache-Busting Edition</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2025 SIF Al Fikri | Dream OS v3.1 - Universal Cache-Busting Edition</p>
+                <p>Dibangun dengan ❤️ oleh The Dream Team | "Mendidik dengan hati, berlandaskan hati nurani"</p>
+                <p>
+                    <a href="javascript:void(0)" onclick="showCredits()">View Development Credits</a> | 
+                    <a href="javascript:void(0)" onclick="showInstallGuide()">Installation Guide</a> |
+                    <a href="javascript:void(0)" onclick="clearAllCache()">Clear All Cache</a> |
+                    <a href="javascript:void(0)" onclick="checkVersion()">Check Version</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== JAVASCRIPT ========== -->
+    <script>
+        // ========== CACHE BUSTING FUNCTIONS ==========
+        function clearAllCache() {
+            if (confirm('Clear semua cache dan reload aplikasi?')) {
+                // Clear all storage
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Clear caches
+                if ('caches' in window) {
+                    caches.keys().then(function(cacheNames) {
+                        cacheNames.forEach(function(cacheName) {
+                            caches.delete(cacheName);
+                        });
+                    });
+                }
+                
+                // Unregister service workers
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                        for(let registration of registrations) {
+                            registration.unregister();
+                        }
+                    });
+                }
+                
+                // Force reload
+                window.location.href = window.location.href.split('?')[0] + '?force=true&t=' + Date.now();
+            }
+        }
+        
+        function checkVersion() {
+            const current = '3.1.0-20241223';
+            const stored = localStorage.getItem('dream_os_version') || 'unknown';
+            
+            alert(`📊 Version Information:\n\nCurrent: ${current}\nStored: ${stored}\n\nStatus: ${current === stored ? '✅ Up to date' : '🔄 Update needed'}`);
+        }
+        
+        // ========== PWA INSTALLATION ==========
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installButton').style.display = 'flex';
+        });
+        
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User installed the app');
+                        document.getElementById('installButton').style.display = 'none';
+                        localStorage.setItem('pwa_installed', 'true');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
+        
+        // ========== SPLASH SCREEN ==========
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('splashScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('splashScreen').style.display = 'none';
+                    document.body.style.display = 'block';
+                    checkConnection();
+                    updateModeDisplay();
+                    trackInstall();
+                }, 500);
+            }, 1500);
+        });
+
+        // ========== ADAPTIVE ENGINE CONTROLS ==========
+        function updateModeDisplay() {
+            const isLite = document.documentElement.classList.contains('dream-lite');
+            const modeText = document.getElementById('currentModeText');
+            const perfIcon = document.getElementById('perfIcon');
+            const perfText = document.getElementById('perfText');
+            
+            if (isLite) {
+                modeText.textContent = 'LITE MODE';
+                modeText.style.color = '#90EE90';
+                perfIcon.textContent = '🐢';
+                perfText.textContent = 'Lite';
+            } else {
+                modeText.textContent = 'FULL MODE';
+                modeText.style.color = '#FFD700';
+                perfIcon.textContent = '⚡';
+                perfText.textContent = 'Full';
+            }
+        }
+        
+        function togglePerformanceMode() {
+            const isLite = document.documentElement.classList.contains('dream-lite');
+            
+            if (isLite) {
+                // Switch to FULL mode
+                document.documentElement.classList.remove('dream-lite');
+                document.documentElement.classList.add('dream-full');
+                
+                // Remove lite styles
+                const liteStyles = document.getElementById('dream-lite-styles');
+                if (liteStyles) liteStyles.remove();
+                
+                localStorage.setItem('force_dream_mode', 'full');
+                alert('✅ Switched to FULL MODE\n\nAll animations and effects enabled!');
+            } else {
+                // Switch to LITE mode
+                document.documentElement.classList.remove('dream-full');
+                document.documentElement.classList.add('dream-lite');
+                
+                // Re-apply lite styles
+                const style = document.createElement('style');
+                style.id = 'dream-lite-styles';
+                style.textContent = `
+                    .dream-lite * {
+                        animation: none !important;
+                        transition: none !important;
+                        transform: none !important;
+                    }
+                    .dream-lite body,
+                    .dream-lite .bismillah,
+                    .dream-lite .shalawat {
+                        font-family: -apple-system, BlinkMacSystemFont, sans-serif !important;
+                    }
+                    .dream-lite .menu-card,
+                    .dream-lite button {
+                        min-height: 65px !important;
+                        padding: 20px 25px !important;
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                localStorage.setItem('force_dream_mode', 'lite');
+                alert('✅ Switched to LITE MODE\n\nOptimized for performance on all devices!');
+            }
+            
+            updateModeDisplay();
+        }
+
+        // ========== OFFLINE SUPPORT ==========
+        function checkConnection() {
+            if (!navigator.onLine) {
+                alert('⚠️ Anda sedang offline. Beberapa fitur mungkin terbatas.');
+                document.body.classList.add('offline-mode');
+            }
+        }
+
+        window.addEventListener('online', () => {
+            alert('✅ Koneksi internet pulih!');
+            document.body.classList.remove('offline-mode');
+        });
+
+        window.addEventListener('offline', () => {
+            alert('⚠️ Anda sedang offline.');
+            document.body.classList.add('offline-mode');
+        });
+
+        // ========== VARIABLES ==========
+        const PASSWORD_INVENTARIS = 'b15m1ll4h_C1nt4';
+        const ADMIN_PASSWORD = 'b15m1ll4h_@dm1n_2025';
+        const WA_PAK_ERWIN = '628886183954';
+        
+        // ========== INITIAL SETUP ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🦸 Dream OS v3.1 Cache-Busting Edition Loaded');
+            
+            // Set tanggal minimal hari ini
+            const today = new Date().toISOString().split('T')[0];
+            const tanggalInput = document.getElementById('tanggal');
+            if (tanggalInput) {
+                tanggalInput.min = today;
+                tanggalInput.value = today;
+            }
+            
+            // Set waktu default
+            const waktuMulaiInput = document.getElementById('waktuMulai');
+            const waktuSelesaiInput = document.getElementById('waktuSelesai');
+            if (waktuMulaiInput && waktuSelesaiInput) {
+                waktuMulaiInput.value = '08:00';
+                waktuSelesaiInput.value = '10:00';
+            }
+            
+            // Show main menu by default
+            showMainMenu();
+            
+            console.log(`
+╔══════════════════════════════════════════════════════════════╗
+║      ﷲ   DREAM OS v3.1 - CACHE BUSTING EDITION   ﷲ          ║
+╠══════════════════════════════════════════════════════════════╣
+║ WhatsApp: ${WA_PAK_ERWIN}                                         ║
+║ Password Inventaris: **${PASSWORD_INVENTARIS}**                   ║
+║ Password Admin: **${ADMIN_PASSWORD}**                             ║
+║ Mode: ${document.documentElement.classList.contains('dream-lite') ? 'LITE' : 'FULL'}                          ║
+║ Version: 3.1.0-20241223                                      ║
+║ Cache Busting: ✅ Active                                     ║
+╚══════════════════════════════════════════════════════════════╝
+            `);
+        });
+        
+        // ========== NAVIGATION FUNCTIONS ==========
+        function showMainMenu() {
+            hideAllContainers();
+            document.getElementById('mainMenu').style.display = 'block';
+            updateModeDisplay();
+        }
+        
+        function showForm(formName) {
+            hideAllContainers();
+            const formElement = document.getElementById(formName + 'Form');
+            if (formElement) {
+                formElement.style.display = 'block';
+            }
+        }
+        
+        function hideAllContainers() {
+            document.getElementById('mainMenu').style.display = 'none';
+            const containers = [
+                'bookingForm', 'k3Form', 'calendarContainer',
+                'qrGeneratorContainer', 'backupContainer', 'adminContainer'
+            ];
+            containers.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+        }
+        
+        // ========== PASSWORD PROTECTION ==========
+        function requestPassword() {
+            const password = prompt('🔐 Masukkan Password untuk Database Inventaris:');
+            if (password === PASSWORD_INVENTARIS) {
+                alert('✅ Akses diberikan!\n\nDatabase inventaris akan tersedia di versi berikutnya (v3.2) dengan fitur lengkap!');
+            } else if (password !== null) {
+                alert('❌ Password salah! Akses ditolak.');
+            }
+        }
+        
+        // ========== ADMIN PANEL WITH PASSWORD ==========
+        function showAdminPanel() {
+            const password = prompt("🔐 MASUKKAN PASSWORD ADMIN PANEL:");
+            
+            if (password === null) {
+                showMainMenu();
+                return;
+            }
+            
+            if (password === ADMIN_PASSWORD) {
+                // Password benar
+                hideAllContainers();
+                const container = document.getElementById('adminContainer');
+                container.style.display = 'block';
+                
+                const bookings = JSON.parse(localStorage.getItem('dream_bookings') || '[]');
+                const k3Reports = JSON.parse(localStorage.getItem('dream_k3_reports') || '[]');
+                
+                // Statistik
+                const today = new Date().toISOString().split('T')[0];
+                const todayBookings = bookings.filter(b => b.tanggal === today).length;
+                
+                container.innerHTML = `
+                    <h2 class="form-title"><i class="fas fa-user-shield"></i> Admin Panel</h2>
+                    
+                    <div class="admin-container">
+                        <h3 style="color: #F59E0B; margin-bottom: 20px; text-align: center;">
+                            <i class="fas fa-lock"></i> System Administration (PROTECTED)
+                        </h3>
+                        
+                        <!-- Password Management -->
+                        <div style="background: rgba(245, 158, 11, 0.1); padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                            <h4 style="color: #F59E0B; margin-bottom: 15px;">
+                                <i class="fas fa-key"></i> Password Management
+                            </h4>
+                            <button onclick="changeAdminPassword()" class="admin-btn" style="width: 100%;">
+                                <i class="fas fa-sync-alt"></i> Ganti Password Admin
+                            </button>
+                            <p style="color: var(--text-gray); font-size: 0.9rem; margin-top: 10px;">
+                                Password saat ini: <code>${ADMIN_PASSWORD.substring(0, 3)}********</code>
+                            </p>
+                        </div>
+                        
+                        <div class="admin-stats-grid">
+                            <div class="admin-stat-card">
+                                <div class="admin-stat-icon"><i class="fas fa-calendar-check"></i></div>
+                                <div class="stat-number">${bookings.length}</div>
+                                <div class="stat-label">Total Booking</div>
+                            </div>
+                            <div class="admin-stat-card">
+                                <div class="admin-stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                                <div class="stat-number">${k3Reports.length}</div>
+                                <div class="stat-label">Laporan K3</div>
+                            </div>
+                            <div class="admin-stat-card">
+                                <div class="admin-stat-icon"><i class="fas fa-building"></i></div>
+                                <div class="stat-number">${todayBookings}</div>
+                                <div class="stat-label">Booking Hari Ini</div>
+                            </div>
+                            <div class="admin-stat-card">
+                                <div class="admin-stat-icon"><i class="fas fa-microchip"></i></div>
+                                <div class="stat-number">${document.documentElement.classList.contains('dream-lite') ? 'LITE' : 'FULL'}</div>
+                                <div class="stat-label">Current Mode</div>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-actions">
+                            <button class="admin-btn" onclick="clearOldData()">
+                                <i class="fas fa-trash-alt"></i> Clear Old Data
+                            </button>
+                            <button class="admin-btn" onclick="resetSystem()">
+                                <i class="fas fa-redo"></i> Reset System
+                            </button>
+                            <button class="admin-btn" onclick="showSystemLogs()">
+                                <i class="fas fa-clipboard-list"></i> System Logs
+                            </button>
+                            <button class="admin-btn" onclick="exportAllData()">
+                                <i class="fas fa-download"></i> Export All Data
+                            </button>
+                        </div>
+                        
+                        <!-- System Info -->
+                        <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; margin-top: 30px;">
+                            <h4 style="color: var(--light-green); margin-bottom: 15px;">
+                                <i class="fas fa-cogs"></i> System Information
+                            </h4>
+                            <p style="color: var(--text-gray); font-size: 0.9rem; line-height: 1.6;">
+                                • <strong>Dream OS v3.1</strong> - Cache Busting Edition<br>
+                                • Storage: ${(JSON.stringify(localStorage).length / 1024).toFixed(2)} KB<br>
+                                • Mode: ${document.documentElement.classList.contains('dream-lite') ? 'LITE' : 'FULL'}<br>
+                                • Version: 3.1.0-20241223<br>
+                                • Browser: ${navigator.userAgent.substring(0, 40)}...
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <button onclick="showMainMenu()" class="back-btn">
+                        <i class="fas fa-arrow-left"></i> Kembali ke Menu Utama
+                    </button>
+                `;
+                
+            } else {
+                alert('❌ PASSWORD SALAH! Akses ditolak.');
+                showMainMenu();
+            }
+        }
+        
+        function changeAdminPassword() {
+            const current = prompt('Masukkan password admin saat ini:');
+            
+            if (current === ADMIN_PASSWORD) {
+                const newPass = prompt('Masukkan password baru (min. 8 karakter):');
+                
+                if (newPass && newPass.length >= 8) {
+                    const confirmPass = prompt('Konfirmasi password baru:');
+                    
+                    if (newPass === confirmPass) {
+                        alert('✅ Password admin berhasil diubah!\n\nPassword baru: ' + newPass + '\n\nSimpan baik-baik!');
+                    } else {
+                        alert('❌ Konfirmasi password tidak cocok!');
+                    }
+                } else {
+                    alert('❌ Password minimal 8 karakter!');
+                }
+            } else if (current !== null) {
+                alert('❌ Password saat ini salah!');
+            }
+        }
+        
+        function clearOldData() {
+            const confirm = window.confirm('Hapus data booking yang lebih dari 30 hari?\n\nData akan dihapus permanen.');
+            if (confirm) {
+                const thirtyDaysAgo = new Date();
+                thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                
+                const bookings = JSON.parse(localStorage.getItem('dream_bookings') || '[]');
+                const filteredBookings = bookings.filter(b => {
+                    const bookingDate = new Date(b.timestamp || b.tanggal);
+                    return bookingDate >= thirtyDaysAgo;
+                });
+                
+                localStorage.setItem('dream_bookings', JSON.stringify(filteredBookings));
+                alert(`✅ Data lama berhasil dihapus! (${bookings.length - filteredBookings.length} data dihapus)`);
+                showAdminPanel();
+            }
+        }
+        
+        function resetSystem() {
+            const password = prompt('Masukkan password admin untuk reset system:');
+            if (password === ADMIN_PASSWORD) {
+                const confirm = window.confirm('RESET SEMUA DATA?\n\nSemua booking, laporan, dan data akan dihapus permanen.');
+                if (confirm) {
+                    localStorage.removeItem('dream_bookings');
+                    localStorage.removeItem('dream_k3_reports');
+                    localStorage.removeItem('last_booking');
+                    localStorage.removeItem('last_backup');
+                    alert('✅ System reset berhasil! Semua data telah dihapus.');
+                    showAdminPanel();
+                }
+            } else if (password !== null) {
+                alert('❌ Password salah!');
+            }
+        }
+        
+        function showSystemLogs() {
+            alert('📋 SYSTEM LOGS\n\nFitur logging akan tersedia di versi berikutnya dengan integrasi cloud.');
+        }
+        
+        function exportAllData() {
+            const data = {
+                system: 'Dream OS v3.1',
+                exportedAt: new Date().toISOString(),
+                bookings: JSON.parse(localStorage.getItem('dream_bookings') || '[]'),
+                k3Reports: JSON.parse(localStorage.getItem('dream_k3_reports') || '[]'),
+                settings: {
+                    mode: document.documentElement.classList.contains('dream-lite') ? 'lite' : 'full',
+                    version: '3.1.0-20241223'
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `dream-os-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+            
+            alert('✅ Semua data berhasil diexport!');
+        }
+        
+        // ========== FORM VALIDATION & SUBMISSION ==========
+        function validateBooking() {
+            const tanggal = document.getElementById('tanggal').value;
+            const waktuMulai = document.getElementById('waktuMulai').value;
+            const waktuSelesai = document.getElementById('waktuSelesai').value;
+            
+            if (tanggal < new Date().toISOString().split('T')[0]) {
+                alert('❌ Tanggal tidak boleh di masa lalu!');
+                return false;
+            }
+            
+            if (waktuMulai >= waktuSelesai) {
+                alert('❌ Waktu selesai harus setelah waktu mulai!');
+                return false;
+            }
+            
+            if (waktuMulai < '07:30' || waktuSelesai > '16:00') {
+                alert('❌ Waktu harus antara 07.30 - 16.00 WIB!');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function submitBooking(e) {
+            e.preventDefault();
+            
+            if (!validateBooking()) return;
+            
+            const data = {
+                nama: document.getElementById('nama').value,
+                divisi: document.getElementById('divisi').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                sarana: document.getElementById('sarana').value,
+                tanggal: document.getElementById('tanggal').value,
+                waktuMulai: document.getElementById('waktuMulai').value,
+                waktuSelesai: document.getElementById('waktuSelesai').value,
+                keterangan: document.getElementById('keterangan').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            try {
+                const bookings = JSON.parse(localStorage.getItem('dream_bookings') || '[]');
+                bookings.push(data);
+                localStorage.setItem('dream_bookings', JSON.stringify(bookings));
+                localStorage.setItem('last_booking', JSON.stringify(data));
+            } catch (err) {
+                console.warn('Cannot save to localStorage');
+            }
+            
+            // Create WhatsApp message
+            const message = `*BOOKING FASILITAS - SIF AL FIKRI*\n\n` +
+                           `👤 *Pemohon:* ${data.nama}\n` +
+                           `🏫 *Divisi:* ${data.divisi}\n` +
+                           `📱 *WhatsApp:* ${data.whatsapp}\n` +
+                           `🏢 *Sarana:* ${data.sarana}\n` +
+                           `📅 *Tanggal:* ${formatDate(data.tanggal)}\n` +
+                           `⏰ *Waktu:* ${data.waktuMulai} - ${data.waktuSelesai}\n` +
+                           `📝 *Keterangan:* ${data.keterangan}\n\n` +
+                           `_Booking via Dream OS v3.1_\n` +
+                           `_Cache-Busting Edition_`;
+            
+            const encodedMessage = encodeURIComponent(message);
+            const waURL = `https://wa.me/${WA_PAK_ERWIN}?text=${encodedMessage}`;
+            
+            alert('✅ Booking berhasil! Akan dibuka WhatsApp untuk konfirmasi ke Pak Erwinsyah.');
+            window.open(waURL, '_blank');
+            
+            // Reset form
+            document.getElementById('bookingFormElement').reset();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tanggal').value = today;
+            document.getElementById('waktuMulai').value = '08:00';
+            document.getElementById('waktuSelesai').value = '10:00';
+            
+            showMainMenu();
+        }
+        
+        function submitK3(e) {
+            e.preventDefault();
+            
+            const data = {
+                jenis: document.getElementById('jenisK3').value,
+                lokasi: document.getElementById('lokasiK3').value,
+                barang: document.getElementById('barangK3').value,
+                deskripsi: document.getElementById('deskripsiK3').value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            try {
+                const reports = JSON.parse(localStorage.getItem('dream_k3_reports') || '[]');
+                reports.push(data);
+                localStorage.setItem('dream_k3_reports', JSON.stringify(reports));
+            } catch (err) {
+                console.warn('Cannot save to localStorage');
+            }
+            
+            // Create WhatsApp message
+            const message = `*LAPORAN ${data.jenis.toUpperCase()} - SIF AL FIKRI*\n\n` +
+                           `📍 *Lokasi:* ${data.lokasi}\n` +
+                           `📦 *Barang/Masalah:* ${data.barang}\n` +
+                           `📝 *Deskripsi:* ${data.deskripsi}\n` +
+                           `🕒 *Waktu:* ${new Date().toLocaleString('id-ID')}\n\n` +
+                           `_Dilaporkan via Dream OS v3.1_\n` +
+                           `_Cache-Busting Edition_`;
+            
+            const encodedMessage = encodeURIComponent(message);
+            const waURL = `https://wa.me/${WA_PAK_ERWIN}?text=${encodedMessage}`;
+            
+            alert(`✅ Laporan ${data.jenis} berhasil! Akan dibuka WhatsApp untuk dikirim ke Pak Erwinsyah.`);
+            window.open(waURL, '_blank');
+            
+            // Reset form
+            document.getElementById('k3FormElement').reset();
+            showMainMenu();
+        }
+        
+        // ========== HELPER FUNCTIONS ==========
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('id-ID', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+        
+        function smartCancelBooking() {
+            const lastBooking = JSON.parse(localStorage.getItem('last_booking') || 'null');
+            
+            let template = "Assalamu'alaikum Pak Erwin,\\n\\nSaya ingin membatalkan booking fasilitas.";
+            
+            if (lastBooking) {
+                template += `\\n\\nDetail booking terakhir saya:\\n` +
+                           `• Nama: ${lastBooking.nama}\\n` +
+                           `• Tanggal: ${lastBooking.tanggal}\\n` +
+                           `• Waktu: ${lastBooking.waktuMulai}-${lastBooking.waktuSelesai}\\n` +
+                           `• Fasilitas: ${lastBooking.sarana}\\n\\n` +
+                           `Mohon bantuan pembatalan.`;
+            } else {
+                template += `\\n\\nMohon bantu dengan detail:\\n` +
+                           `• Nama: [ISI NAMA]\\n` +
+                           `• Tanggal: [TANGGAL]\\n` +
+                           `• Waktu: [JAM]\\n` +
+                           `• Fasilitas: [FASILITAS]\\n\\n` +
+                           `Terima kasih.`;
+            }
+            
+            template += `\\n\\n— Dream OS v3.1`;
+            
+            window.open(`https://wa.me/628886183954?text=${encodeURIComponent(template)}`, '_blank');
+            alert('✅ WhatsApp terbuka! Isi detail booking yang ingin dibatalkan.');
+        }
+        
+        function previewK3Foto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('fotoPreview').src = e.target.result;
+                    document.getElementById('fotoPreviewContainer').style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function removeFoto() {
+            document.getElementById('fotoK3').value = '';
+            document.getElementById('fotoPreviewContainer').style.display = 'none';
+        }
+        
+        function showK3FotoHistory() {
+            alert('📷 History Foto K3\n\nFitur ini akan tersedia di versi berikutnya dengan integrasi cloud storage.');
+        }
+        
+        // ========== CALENDAR SYSTEM ==========
+        function showFullCalendar() {
+            hideAllContainers();
+            
+            const container = document.getElementById('calendarContainer');
+            container.style.display = 'block';
+            
+            const bookings = JSON.parse(localStorage.getItem('dream_bookings') || '[]');
+            const today = new Date();
+            const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+                               'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            let calendarHTML = `
+                <h2 class="form-title"><i class="fas fa-calendar-alt"></i> Kalender 30 Hari</h2>
+                
+                <div class="calendar-full-container">
+                    <div class="calendar-controls">
+                        <div class="calendar-current-month">
+                            ${monthNames[today.getMonth()]} ${today.getFullYear()}
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-days-header">
+                        <div class="day-header">Min</div><div class="day-header">Sen</div>
+                        <div class="day-header">Sel</div><div class="day-header">Rab</div>
+                        <div class="day-header">Kam</div><div class="day-header">Jum</div>
+                        <div class="day-header">Sab</div>
+                    </div>
+                    
+                    <div class="calendar-days-grid" id="calendarDaysGrid">
+            `;
+            
+            // Generate calendar grid
+            const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            const startingDay = firstDay.getDay();
+            const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+            
+            // Empty cells before first day
+            for (let i = 0; i < startingDay; i++) {
+                calendarHTML += '<div class="calendar-day-box"></div>';
+            }
+            
+            // Days of month
+            for (let day = 1; day <= Math.min(30, daysInMonth); day++) {
+                const dateStr = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                const dayBookings = bookings.filter(b => b.tanggal === dateStr);
+                const dayOfWeek = new Date(dateStr).getDay();
+                
+                let className = 'calendar-day-box';
+                if (dayBookings.length === 0) {
+                    className += ' empty';
+                } else if (dayBookings.length >= 3) {
+                    className += ' full';
+                } else {
+                    className += ' partial';
+                }
+                
+                if (dayOfWeek === 0) {
+                    className += ' weekend';
+                }
+                
+                calendarHTML += `
+                    <div class="${className}" onclick="showDayDetails('${dateStr}')">
+                        <div class="day-number">${day}</div>
+                        ${dayBookings.length > 0 ? `
+                            <div class="day-booking-count">${dayBookings.length}</div>
+                            <div class="day-events">
+                                ${dayBookings.slice(0, 2).map(() => '<div class="event-dot booking"></div>').join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            calendarHTML += `
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin: 30px 0;">
+                    <div style="background: rgba(144, 238, 144, 0.1); padding: 20px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; color: white;">${bookings.filter(b => {
+                            const bookingDate = new Date(b.tanggal);
+                            const thirtyDaysLater = new Date();
+                            thirtyDaysLater.setDate(thirtyDaysLater.getDate() + 30);
+                            return bookingDate <= thirtyDaysLater;
+                        }).length}</div>
+                        <div style="color: var(--text-gray); font-size: 0.9rem;">Booking 30 hari</div>
+                    </div>
+                    <div style="background: rgba(255, 215, 0, 0.1); padding: 20px; border-radius: 12px; text-align: center;">
+                        <div style="font-size: 2rem; color: white;">${new Set(bookings.map(b => b.tanggal)).size}</div>
+                        <div style="color: var(--text-gray); font-size: 0.9rem;">Hari terbooking</div>
+                    </div>
+                </div>
+                
+                <button onclick="showMainMenu()" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Menu Utama
+                </button>
+            `;
+            
+            container.innerHTML = calendarHTML;
+        }
+        
+        function showDayDetails(dateStr) {
+            const bookings = JSON.parse(localStorage.getItem('dream_bookings') || '[]');
+            const dayBookings = bookings.filter(b => b.tanggal === dateStr);
+            
+            const date = new Date(dateStr);
+            const formattedDate = date.toLocaleDateString('id-ID', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            if (dayBookings.length === 0) {
+                alert(`📅 ${formattedDate}\n\nBelum ada booking untuk hari ini.`);
+                return;
+            }
+            
+            let message = `📅 ${formattedDate}\n\n`;
+            message += `Total Booking: ${dayBookings.length}\n\n`;
+            
+            dayBookings.forEach((booking, index) => {
+                message += `${index + 1}. ${booking.sarana}\n`;
+                message += `   ⏰ ${booking.waktuMulai} - ${booking.waktuSelesai}\n`;
+                message += `   👤 ${booking.nama} (${booking.divisi})\n`;
+                if (booking.keterangan) {
+                    message += `   📝 ${booking.keterangan.substring(0, 50)}${booking.keterangan.length > 50 ? '...' : ''}\n`;
+                }
+                message += `\n`;
+            });
+            
+            alert(message);
+        }
+        
+        // ========== QR CODE GENERATOR ==========
+        function showQRGenerator() {
+            hideAllContainers();
+            
+            const container = document.getElementById('qrGeneratorContainer');
+            container.style.display = 'block';
+            
+            container.innerHTML = `
+                <h2 class="form-title"><i class="fas fa-qrcode"></i> QR Code Generator</h2>
+                
+                <div class="qr-generator-container">
+                    <h3 style="color: var(--gold); margin-bottom: 20px; text-align: center;">Pilih Tipe QR Code</h3>
+                    
+                    <div class="qr-types-grid">
+                        <div class="qr-type-card booking active" onclick="generateQR('booking')">
+                            <div class="qr-type-icon"><i class="fas fa-calendar-check"></i></div>
+                            <h4>Booking QR</h4>
+                            <p>Untuk booking terakhir</p>
+                        </div>
+                        
+                        <div class="qr-type-card facility" onclick="generateQR('facility')">
+                            <div class="qr-type-icon"><i class="fas fa-building"></i></div>
+                            <h4>Fasilitas QR</h4>
+                            <p>Label fasilitas</p>
+                        </div>
+                        
+                        <div class="qr-type-card emergency" onclick="generateQR('emergency')">
+                            <div class="qr-type-icon"><i class="fas fa-phone-alt"></i></div>
+                            <h4>Emergency QR</h4>
+                            <p>Kontak darurat</p>
+                        </div>
+                    </div>
+                    
+                    <div class="qr-preview-container" id="qrPreview">
+                        <h4 style="color: var(--light-green); margin-bottom: 20px;">Pilih tipe QR Code di atas</h4>
+                        <p style="color: var(--text-gray);">QR Code akan muncul di sini</p>
+                    </div>
+                    
+                    <div id="qrActions" style="display: none; gap: 15px; justify-content: center; margin-top: 25px;">
+                        <button class="qr-action-btn download" onclick="downloadQR()">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                        <button class="qr-action-btn" onclick="shareQR()">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                    </div>
+                </div>
+                
+                <button onclick="showMainMenu()" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Menu Utama
+                </button>
+            `;
+        }
+        
+        function generateQR(type) {
+            let qrContent = '';
+            let title = '';
+            
+            if (type === 'booking') {
+                const lastBooking = JSON.parse(localStorage.getItem('last_booking') || 'null');
+                if (lastBooking) {
+                    qrContent = `BOOKING SIF AL FIKRI\nNama: ${lastBooking.nama}\nFasilitas: ${lastBooking.sarana}\nTanggal: ${lastBooking.tanggal}\nWaktu: ${lastBooking.waktuMulai}-${lastBooking.waktuSelesai}`;
+                    title = 'Booking QR Code';
+                } else {
+                    qrContent = 'Belum ada booking terakhir';
+                    title = 'Sample Booking QR';
+                }
+            } else if (type === 'facility') {
+                qrContent = 'FASILITAS SIF AL FIKRI\nAula SMP, Aula SMA, Lab Komputer\nLapangan Basket, Volley, Tanah\nInfo: 021-123456';
+                title = 'Facility QR Code';
+            } else if (type === 'emergency') {
+                qrContent = 'EMERGENCY CONTACT SIF AL FIKRI\nSecurity: 021-123456\nAmbulance: 118\nFire Dept: 113\nMaintenance: 0888-6183-954';
+                title = 'Emergency QR Code';
+            }
+            
+            const qrURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrContent)}&size=250x250&format=png`;
+            
+            document.getElementById('qrPreview').innerHTML = `
+                <h4 style="color: var(--gold); margin-bottom: 15px;">${title}</h4>
+                <img src="${qrURL}" alt="QR Code" class="qr-code-image" id="generatedQR">
+                <p style="color: var(--text-gray); margin-top: 15px; font-size: 0.9rem;">
+                    ${qrContent.substring(0, 50)}${qrContent.length > 50 ? '...' : ''}
+                </p>
+            `;
+            
+            document.getElementById('qrActions').style.display = 'flex';
+        }
+        
+        function downloadQR() {
+            const qrImg = document.getElementById('generatedQR');
+            if (qrImg && qrImg.src) {
+                const link = document.createElement('a');
+                link.href = qrImg.src;
+                link.download = `qr-code-sif-${Date.now()}.png`;
+                link.click();
+                alert('✅ QR Code berhasil didownload!');
+            }
+        }
+        
+        function shareQR() {
+            const qrImg = document.getElementById('generatedQR');
+            if (qrImg && qrImg.src) {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'QR Code SIF Al Fikri',
+                        text: 'QR Code generated by Dream OS v3.1',
+                        url: qrImg.src
+                    });
+                } else {
+                    alert('Salin URL ini untuk berbagi: ' + qrImg.src);
+                }
+            }
+        }
+        
+        // ========== BACKUP SYSTEM ==========
+        function showBackupSystem() {
+            hideAllContainers();
+            
+            const container = document.getElementById('backupContainer');
+            container.style.display = 'block';
+            
+            const bookings = JSON.parse(localStorage.getItem('dream_bookings') || '[]');
+            const k3Reports = JSON.parse(localStorage.getItem('dream_k3_reports') || '[]');
+            
+            container.innerHTML = `
+                <h2 class="form-title"><i class="fas fa-database"></i> Data Backup & Export</h2>
+                
+                <div class="backup-container">
+                    <h3 style="color: #8B5CF6; margin-bottom: 20px; text-align: center;">System Backup & Export</h3>
+                    
+                    <div class="backup-stats">
+                        <div class="backup-stat">
+                            <div class="stat-number">${bookings.length}</div>
+                            <div class="stat-label">Total Booking</div>
+                        </div>
+                        <div class="backup-stat">
+                            <div class="stat-number">${k3Reports.length}</div>
+                            <div class="stat-label">Laporan K3</div>
+                        </div>
+                        <div class="backup-stat">
+                            <div class="stat-number">${new Date().toLocaleDateString('id-ID')}</div>
+                            <div class="stat-label">Tanggal Backup</div>
+                        </div>
+                    </div>
+                    
+                    <div class="backup-options">
+                        <div class="backup-option" onclick="exportToJSON()">
+                            <div class="backup-icon"><i class="fas fa-file-code"></i></div>
+                            <h4>Export to JSON</h4>
+                            <p>Full data untuk backup</p>
+                        </div>
+                        
+                        <div class="backup-option" onclick="exportBookingsCSV()">
+                            <div class="backup-icon"><i class="fas fa-file-csv"></i></div>
+                            <h4>Export Booking CSV</h4>
+                            <p>Format spreadsheet</p>
+                        </div>
+                        
+                        <div class="backup-option" onclick="exportK3CSV()">
+                            <div class="backup-icon"><i class="fas fa-file-excel"></i></div>
+                            <h4>Export K3 CSV</h4>
+                            <p>Laporan kerusakan</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; margin-top: 30px;">
+                        <h4 style="color: var(--light-green); margin-bottom: 15px;">
+                            <i class="fas fa-info-circle"></i> Backup Information
+                        </h4>
+                        <p style="color: var(--text-gray); font-size: 0.9rem; line-height: 1.6;">
+                            • Data disimpan di <strong>localStorage browser</strong><br>
+                            • Backup secara berkala untuk keamanan<br>
+                            • File JSON dapat diimpor kembali<br>
+                            • CSV kompatibel dengan Excel/Google Sheets
+                        </p>
+                    </div>
+                </div>
+                
+                <button onclick="showMainMenu()" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Menu Utama
+                </button>
+            `;
+        }
+        
+        function exportToJSON() {
+            const data = {
+                system: 'Dream OS v3.1',
+                exportedAt: new Date().toISOString(),
+                bookings: JSON.parse(localStorage.getItem('dream_bookings') || '[]'),
+                k3Reports: JSON.parse(localStorage.getItem('dream_k3_reports') || '[]'),
+                metadata: {
+                    totalBookings: JSON.parse(localStorage.getItem('dream_bookings') || '[]').length,
+                    totalK3Reports: JSON.parse(localStorage.getItem('dream_k3_reports') || '[]').length,
+                    version: '3.1.0-20241223',
+                    mode: document.documentElement.classList.contains('dream-lite') ? 'lite' : 'full'
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `dream-os-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+            
+            alert('✅ Backup JSON berhasil didownload!');
+            localStorage.setItem('last_backup', new Date().toISOString());
+        }
+        
+        function exportBookingsCSV() {
+            const bookings = JSON.parse(localStorage.getItem('dream_bookings') || '[]');
+            
+            if (bookings.length === 0) {
+                alert('❌ Tidak ada data booking untuk diexport');
+                return;
+            }
+            
+            let csv = 'Nama,Divisi,WhatsApp,Sarana,Tanggal,Waktu Mulai,Waktu Selesai,Keterangan\n';
+            
+            bookings.forEach(item => {
+                csv += `"${item.nama}","${item.divisi}","${item.whatsapp}","${item.sarana}","${item.tanggal}","${item.waktuMulai}","${item.waktuSelesai}","${item.keterangan}"\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `bookings-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+            
+            alert(`✅ ${bookings.length} data booking berhasil diexport ke CSV!`);
+        }
+        
+        function exportK3CSV() {
+            const reports = JSON.parse(localStorage.getItem('dream_k3_reports') || '[]');
+            
+            if (reports.length === 0) {
+                alert('❌ Tidak ada data K3 untuk diexport');
+                return;
+            }
+            
+            let csv = 'Jenis,Lokasi,Barang,Deskripsi,Tanggal\n';
+            
+            reports.forEach(item => {
+                const date = new Date(item.timestamp).toLocaleDateString('id-ID');
+                csv += `"${item.jenis}","${item.lokasi}","${item.barang}","${item.deskripsi}","${date}"\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `k3-reports-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+            
+            alert(`✅ ${reports.length} data K3 berhasil diexport ke CSV!`);
+        }
+        
+        // ========== UTILITY FUNCTIONS ==========
+        function showCredits() {
+            alert(`🌟 Development Credits\n\nDream OS v3.1 - Cache Busting Edition\n\nDeveloped by The Dream Team:\n\n• Mr. M - System Architect\n• Mr. DSeek - Lead Developer\n• Mrs. Qwen - AI & Strategy Consultant\n• My Bro - Project Execution\n\nSpecial Thanks to:\n• Pak Hanung Budianto, S.E.\n• Pak Erwin Syah\n• SIF Al Fikri Community\n\nVersion: 3.1.0-20241223\nRelease Date: ${new Date().toLocaleDateString('id-ID')}\n\nFeatures:\n• Cache Busting Technology\n• Adaptive Engine (Auto-detect device)\n• Universal Device Support\n• Admin Password Protection\n• Auto-clear on update`);
+        }
+        
+        function showInstallGuide() {
+            alert(`📱 Installation Guide\n\nCara Install Dream OS sebagai App:\n\n1. BUKA di Chrome/Safari\n   • Ketik: https://sif-dream-os.vercel.app\n\n2. TAP menu (⋮) di browser\n   • Chrome: titik tiga di atas\n   • Safari: share icon (📤)\n\n3. PILIH "Add to Home Screen"\n   • Beri nama: "Dream OS"\n   • TAP ADD\n\n4. SELESAI! 🎉\n   • Icon muncul di homescreen\n   • Buka seperti app native\n   • Works offline\n   • Auto-cache clearing\n\n💡 Tips: Untuk update, cukup clear cache dari dalam app!`);
+        }
+        
+        function trackInstall() {
+            const installs = parseInt(localStorage.getItem('app_installs') || '0');
+            localStorage.setItem('app_installs', installs + 1);
+            localStorage.setItem('first_visit', new Date().toISOString());
+        }
+    </script>
+</body>
+</html>
