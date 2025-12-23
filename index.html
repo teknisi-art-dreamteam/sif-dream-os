@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<!-- DREAM OS v3.2 - UNIVERSAL COMPATIBLE EDITION -->
+<!-- Target: Android 5.0+, iOS 10+, 3G network, 1GB RAM -->
+<html lang="id" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dream OS - SIF Al Fikri</title>
+    
+    <!-- EXTREME COMPATIBILITY META -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    
+    <!-- PWA LITE -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#006400">
+    
+    <!-- NO EXTERNAL DEPENDENCIES - EMBED EVERYTHING -->
+    <style>
+        /* ========== BASE RESET (WORKS EVERYWHERE) ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.4;
+            color: #333;
+            background: #f5f5f5;
+            overflow-x: hidden;
+        }
+        
+        /* ========== NO-JS FALLBACK STYLES ========== */
+        .no-js body {
+            padding: 20px;
+        }
+        
+        .no-js .no-js-warning {
+            display: block !important;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            color: #856404;
+        }
+        
+        .no-js .js-only {
+            display: none !important;
+        }
+        
+        /* ========== SPLASH SCREEN (SIMPLIFIED) ========== */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #006400;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-size: 18px;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        #splashScreen.hidden {
+            display: none;
+        }
+        
+        /* ========== MAIN CONTAINER (NO FLEXBOX FALLBACK) ========== */
+        .main-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: block;
+        }
+        
+        /* ========== HEADER (SIMPLIFIED) ========== */
+        .header {
+            background: linear-gradient(to right, #000000, #CE1126, #006400);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* ========== MENU SYSTEM (TABLE-BASED FALLBACK) ========== */
+        .menu-grid {
+            display: block;
+            width: 100%;
+        }
+        
+        .menu-card {
+            display: block;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.2s;
+        }
+        
+        .menu-card:hover, .menu-card:active {
+            background: #f8f9fa;
+            border-color: #006400;
+        }
+        
+        .menu-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #006400;
+        }
+        
+        .menu-card p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* ========== FORMS (COMPATIBLE WITH OLD BROWSERS) ========== */
+        .form-container {
+            padding: 20px;
+            display: none;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #006400;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            background: white;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        /* Fix for iOS input styling */
+        input[type="text"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="time"],
+        textarea {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        
+        /* Date input fallback for old browsers */
+        .date-fallback {
+            display: none;
+        }
+        
+        .no-inputdate .date-native {
+            display: none;
+        }
+        
+        .no-inputdate .date-fallback {
+            display: block;
+        }
+        
+        /* ========== BUTTONS (TOUCH-FRIENDLY) ========== */
+        button, .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #006400;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            margin: 10px 0;
+            min-height: 44px; /* Minimum touch target size */
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        button:hover, .btn:hover {
+            background: #005000;
+        }
+        
+        button:active, .btn:active {
+            background: #004000;
+            transform: translateY(1px);
+        }
+        
+        /* ========== COMPATIBILITY WARNINGS ========== */
+        .compatibility-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #856404;
+        }
+        
+        /* ========== LEGACY BROWSER FIXES ========== */
+        /* IE 10-11 fixes */
+        @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+            .menu-grid {
+                display: table;
+                width: 100%;
+            }
+            
+            .menu-card {
+                display: table-cell;
+                vertical-align: top;
+                float: none;
+            }
+        }
+        
+        /* Android 4.x fixes */
+        .android-legacy .menu-grid {
+            display: block;
+        }
+        
+        .android-legacy .menu-card {
+            float: left;
+            width: 50%;
+            margin: 5px 0;
+        }
+        
+        /* iOS 9-10 fixes */
+        @supports (-webkit-touch-callout: none) {
+            input, textarea {
+                font-size: 16px !important; /* Prevent zoom on focus */
+            }
+        }
+        
+        /* ========== NETWORK-AWARE STYLES ========== */
+        /* 2G/3G mode - hide non-essential */
+        .network-slow .menu-icon,
+        .network-slow .animation,
+        .network-slow .bg-image {
+            display: none !important;
+        }
+        
+        .network-slow .menu-card {
+            padding: 15px 10px;
+        }
+        
+        /* ========== RESPONSIVE (BASIC) ========== */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .menu-card {
+                margin: 10px 5px;
+                padding: 15px;
+            }
+            
+            button, .btn {
+                padding: 14px;
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-container {
+                border-radius: 5px;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            .form-container {
+                padding: 15px;
+            }
+            
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+        
+        /* ========== VERY OLD PHONES (240x320) ========== */
+        @media (max-width: 320px) and (max-height: 480px) {
+            body {
+                padding: 5px;
+                font-size: 12px;
+            }
+            
+            .header h1 {
+                font-size: 16px;
+            }
+            
+            .menu-card h3 {
+                font-size: 14px;
+            }
+            
+            button, .btn {
+                padding: 12px;
+                font-size: 14px;
+                min-height: 36px;
+            }
+        }
+        
+        /* ========== PRINT STYLES ========== */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            .main-container {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+    
+    <!-- NOSCRIPT CONTENT -->
+    <noscript>
+        <style>
+            body {
+                display: block !important;
+                padding: 20px;
+                background: #f5f5f5;
+            }
+            
+            #splashScreen {
+                display: none !important;
+            }
+            
+            .no-js-warning {
+                display: block !important;
+                background: #ffebee;
+                border: 2px solid #ffcdd2;
+                padding: 20px;
+                margin: 20px 0;
+                border-radius: 10px;
+                text-align: center;
+            }
+            
+            .no-js-form {
+                margin-top: 30px;
+                padding: 20px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+            
+            .no-js-form h3 {
+                color: #006400;
+                margin-bottom: 15px;
+            }
+        </style>
+    </noscript>
+</head>
+<body>
+    <!-- SPLASH SCREEN (SIMPLIFIED) -->
+    <div id="splashScreen">
+        <div style="font-size: 48px; margin-bottom: 20px;">🦸</div>
+        <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">Dream OS</div>
+        <div style="font-size: 16px; opacity: 0.8;">SIF Al Fikri General Affairs</div>
+        <div style="margin-top: 20px; font-size: 14px;">Loading system...</div>
+    </div>
+    
+    <!-- NO-JS FALLBACK -->
+    <noscript>
+        <div class="no-js-warning">
+            <h3>⚠️ JavaScript Dinonaktifkan</h3>
+            <p>Dream OS berjalan dalam mode sederhana. Fitur terbatas.</p>
+            
+            <div class="no-js-form">
+                <h4>📞 Kontak Langsung</h4>
+                <p><strong>Pak Erwin (GA Coordinator)</strong></p>
+                <p>📱 WhatsApp: <a href="https://wa.me/628886183954" style="color: #006400; font-weight: bold;">0888-6183-954</a></p>
+                <p>📞 Telepon: <a href="tel:+628886183954" style="color: #006400; font-weight: bold;">+62 888-6183-954</a></p>
+                
+                <h4 style="margin-top: 20px;">📋 Form Manual</h4>
+                <p>Untuk booking atau laporan, hubungi langsung via WhatsApp di atas.</p>
+                <p style="font-size: 12px; color: #666; margin-top: 15px;">
+                    Aktifkan JavaScript untuk pengalaman lengkap.
+                </p>
+            </div>
+        </div>
+    </noscript>
+    
+    <!-- MAIN CONTAINER (HIDDEN INITIALLY) -->
+    <div class="main-container" style="display: none;">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🦸 Dream OS</h1>
+            <div class="subtitle">SIF Al Fikri - General Affairs System</div>
+            <div style="font-size: 12px; margin-top: 10px; opacity: 0.7;">
+                Compatible with all devices • v3.2 Universal
+            </div>
+        </div>
+        
+        <!-- MAIN MENU -->
+        <div id="mainMenu">
+            <div style="padding: 20px;">
+                <h2 style="color: #006400; margin-bottom: 20px; text-align: center;">📋 SYSTEM MENU</h2>
+                
+                <div class="menu-grid">
+                    <!-- Booking -->
+                    <a href="javascript:void(0)" class="menu-card" onclick="showForm('booking')">
+                        <h3>📅 Form Booking</h3>
+                        <p>Booking fasilitas sekolah. Langsung ke WhatsApp Pak Erwin.</p>
+                    </a>
+                    
+                    <!-- K3 -->
+                    <a href="javascript:void(0)" class="menu-card" onclick="showForm('k3')">
+                        <h3>⚠️ Form K3</h3>
+                        <p>Laporan kerusakan, kehilangan, kejadian penting.</p>
+                    </a>
+                    
+                    <!-- Kalender -->
+                    <a href="javascript:void(0)" class="menu-card" onclick="showCalendar()">
+                        <h3>📆 Kalender</h3>
+                        <p>Lihat jadwal 30 hari ke depan.</p>
+                    </a>
+                    
+                    <!-- QR Code -->
+                    <a href="javascript:void(0)" class="menu-card" onclick="showQRGenerator()">
+                        <h3>🔳 QR Generator</h3>
+                        <p>Buat QR Code untuk berbagai keperluan.</p>
+                    </a>
+                </div>
+                
+                <!-- SYSTEM INFO -->
+                <div style="margin-top: 30px; padding: 15px; background: #f8f9fa; border-radius: 8px; font-size: 14px;">
+                    <p style="color: #666; text-align: center;">
+                        <strong>System Status:</strong> 
+                        <span id="connectionStatus">Checking...</span> • 
+                        <span id="deviceType">Detecting...</span>
+                    </p>
+                    <p style="font-size: 12px; color: #888; text-align: center; margin-top: 5px;">
+                        Universal Compatibility Mode • Works on 3G/2G networks
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FORM CONTAINERS -->
+        <div id="bookingForm" class="form-container">
+            <!-- Simplified booking form -->
+        </div>
+        
+        <div id="k3Form" class="form-container">
+            <!-- Simplified K3 form -->
+        </div>
+        
+        <!-- FOOTER -->
+        <div style="padding: 20px; background: #f8f9fa; border-top: 1px solid #e0e0e0; text-align: center;">
+            <p style="font-size: 14px; color: #666;">
+                SIF Al Fikri • General Affairs Department
+            </p>
+            <p style="font-size: 12px; color: #888; margin-top: 5px;">
+                Dream OS v3.2 Universal • © 2025
+            </p>
+        </div>
+    </div>
+
+    <!-- ========== JAVASCRIPT WITH EXTREME COMPATIBILITY ========== -->
+    <script>
+        // ========== COMPATIBILITY DETECTION ==========
+        (function() {
+            'use strict';
+            
+            // Remove no-js class if JS is enabled
+            document.documentElement.className = 
+                document.documentElement.className.replace(/\bno-js\b/, 'js');
+            
+            // Detect browser capabilities
+            var supports = {
+                localStorage: (function() {
+                    try {
+                        localStorage.setItem('test', 'test');
+                        localStorage.removeItem('test');
+                        return true;
+                    } catch (e) {
+                        return false;
+                    }
+                })(),
+                
+                dateInput: (function() {
+                    var input = document.createElement('input');
+                    input.setAttribute('type', 'date');
+                    return input.type !== 'text';
+                })(),
+                
+                touch: ('ontouchstart' in window) || 
+                       (navigator.maxTouchPoints > 0) ||
+                       (navigator.msMaxTouchPoints > 0),
+                
+                // Network detection
+                connection: navigator.connection || 
+                           navigator.mozConnection || 
+                           navigator.webkitConnection
+            };
+            
+            // Apply compatibility classes
+            if (!supports.dateInput) {
+                document.documentElement.className += ' no-inputdate';
+            }
+            
+            if (navigator.userAgent.match(/Android\s[2-4]/)) {
+                document.documentElement.className += ' android-legacy';
+            }
+            
+            // Network type detection
+            function updateNetworkStatus() {
+                var statusEl = document.getElementById('connectionStatus');
+                if (!statusEl) return;
+                
+                if (!navigator.onLine) {
+                    statusEl.textContent = 'Offline';
+                    document.documentElement.className += ' network-offline';
+                    return;
+                }
+                
+                if (supports.connection) {
+                    var type = supports.connection.effectiveType;
+                    if (type === 'slow-2g' || type === '2g') {
+                        statusEl.textContent = '2G Mode';
+                        document.documentElement.className += ' network-slow';
+                    } else if (type === '3g') {
+                        statusEl.textContent = '3G Mode';
+                        document.documentElement.className += ' network-slow';
+                    } else {
+                        statusEl.textContent = 'Online';
+                    }
+                } else {
+                    statusEl.textContent = 'Online';
+                }
+            }
+            
+            // Device type
+            function detectDevice() {
+                var deviceEl = document.getElementById('deviceType');
+                if (!deviceEl) return;
+                
+                var ua = navigator.userAgent;
+                if (/mobile|android|iphone|ipod|ipad/i.test(ua)) {
+                    deviceEl.textContent = 'Mobile';
+                } else {
+                    deviceEl.textContent = 'Desktop';
+                }
+            }
+            
+            // ========== INITIALIZE APP ==========
+            function initApp() {
+                // Hide splash screen
+                var splash = document.getElementById('splashScreen');
+                if (splash) {
+                    splash.className += ' hidden';
+                }
+                
+                // Show main container
+                var mainContainer = document.querySelector('.main-container');
+                if (mainContainer) {
+                    mainContainer.style.display = 'block';
+                }
+                
+                // Update status
+                updateNetworkStatus();
+                detectDevice();
+                
+                // Network event listeners
+                window.addEventListener('online', updateNetworkStatus);
+                window.addEventListener('offline', updateNetworkStatus);
+                
+                // Log initialization
+                console.log('Dream OS Universal v3.2 initialized');
+                console.log('Supports localStorage:', supports.localStorage);
+                console.log('Supports date input:', supports.dateInput);
+                console.log('Touch device:', supports.touch);
+                
+                // Save basic analytics
+                if (supports.localStorage) {
+                    try {
+                        var visits = parseInt(localStorage.getItem('visits') || '0');
+                        localStorage.setItem('visits', (visits + 1).toString());
+                        localStorage.setItem('firstVisit', 
+                            localStorage.getItem('firstVisit') || new Date().toISOString());
+                    } catch (e) {
+                        // Silently fail if storage is full
+                    }
+                }
+            }
+            
+            // Start app when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initApp);
+            } else {
+                initApp();
+            }
+            
+            // Make functions globally available (carefully)
+            window.showForm = function(formId) {
+                // Hide all forms
+                var forms = document.querySelectorAll('.form-container');
+                for (var i = 0; i < forms.length; i++) {
+                    forms[i].style.display = 'none';
+                }
+                
+                // Hide main menu
+                var mainMenu = document.getElementById('mainMenu');
+                if (mainMenu) {
+                    mainMenu.style.display = 'none';
+                }
+                
+                // Show requested form
+                var form = document.getElementById(formId + 'Form');
+                if (form) {
+                    form.style.display = 'block';
+                    
+                    // Initialize date fields if needed
+                    if (formId === 'booking' && !supports.dateInput) {
+                        initDateFallback();
+                    }
+                }
+                
+                // Add back button
+                var backBtn = document.createElement('button');
+                backBtn.textContent = '← Kembali ke Menu';
+                backBtn.onclick = function() {
+                    // Show main menu
+                    if (mainMenu) {
+                        mainMenu.style.display = 'block';
+                    }
+                    
+                    // Hide all forms
+                    for (var i = 0; i < forms.length; i++) {
+                        forms[i].style.display = 'none';
+                    }
+                };
+                
+                form.appendChild(backBtn);
+            };
+            
+            // Date fallback for old browsers
+            function initDateFallback() {
+                var today = new Date();
+                var dateInput = document.getElementById('tanggal');
+                
+                if (!dateInput) return;
+                
+                // Create fallback selects
+                var daySelect = document.createElement('select');
+                var monthSelect = document.createElement('select');
+                var yearSelect = document.createElement('select');
+                
+                // Add days 1-31
+                for (var d = 1; d <= 31; d++) {
+                    var option = document.createElement('option');
+                    option.value = d;
+                    option.textContent = d;
+                    daySelect.appendChild(option);
+                }
+                
+                // Add months
+                var months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                             'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                for (var m = 0; m < months.length; m++) {
+                    var option = document.createElement('option');
+                    option.value = m + 1;
+                    option.textContent = months[m];
+                    monthSelect.appendChild(option);
+                }
+                
+                // Add years (current to +1 year)
+                for (var y = today.getFullYear(); y <= today.getFullYear() + 1; y++) {
+                    var option = document.createElement('option');
+                    option.value = y;
+                    option.textContent = y;
+                    yearSelect.appendChild(option);
+                }
+                
+                // Set current date
+                daySelect.value = today.getDate();
+                monthSelect.value = today.getMonth() + 1;
+                yearSelect.value = today.getFullYear();
+                
+                // Replace input with selects
+                var parent = dateInput.parentNode;
+                dateInput.style.display = 'none';
+                
+                var container = document.createElement('div');
+                container.className = 'date-fallback';
+                container.style.display = 'flex';
+                container.style.gap = '10px';
+                
+                container.appendChild(daySelect);
+                container.appendChild(monthSelect);
+                container.appendChild(yearSelect);
+                
+                parent.appendChild(container);
+            }
+            
+            // Simple booking submission
+            window.submitBooking = function() {
+                var nama = document.getElementById('nama') ? document.getElementById('nama').value : '';
+                var sarana = document.getElementById('sarana') ? document.getElementById('sarana').value : '';
+                
+                if (!nama || !sarana) {
+                    alert('Harap isi semua field yang wajib!');
+                    return;
+                }
+                
+                // Create WhatsApp message
+                var message = 'Booking Fasilitas SIF Al Fikri%0A%0A';
+                message += 'Nama: ' + encodeURIComponent(nama) + '%0A';
+                message += 'Fasilitas: ' + encodeURIComponent(sarana) + '%0A';
+                message += 'Tanggal: ' + (document.getElementById('tanggal') ? 
+                    document.getElementById('tanggal').value : '') + '%0A';
+                message += 'Waktu: ' + (document.getElementById('waktuMulai') ? 
+                    document.getElementById('waktuMulai').value : '') + '%0A';
+                message += 'Keterangan: ' + (document.getElementById('keterangan') ? 
+                    document.getElementById('keterangan').value : '') + '%0A%0A';
+                message += '(via Dream OS Universal)';
+                
+                // Open WhatsApp
+                window.open('https://wa.me/628886183954?text=' + message, '_blank');
+                
+                // Save to localStorage if available
+                if (supports.localStorage) {
+                    try {
+                        var booking = {
+                            nama: nama,
+                            sarana: sarana,
+                            tanggal: document.getElementById('tanggal') ? 
+                                document.getElementById('tanggal').value : '',
+                            waktu: document.getElementById('waktuMulai') ? 
+                                document.getElementById('waktuMulai').value : '',
+                            timestamp: new Date().toISOString()
+                        };
+                        
+                        var bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+                        bookings.push(booking);
+                        localStorage.setItem('bookings', JSON.stringify(bookings));
+                    } catch (e) {
+                        // Storage might be full
+                    }
+                }
+                
+                alert('Booking berhasil! WhatsApp akan terbuka.');
+            };
+            
+            // Calendar function
+            window.showCalendar = function() {
+                showForm('calendar');
+                
+                var container = document.getElementById('calendarForm');
+                if (!container) return;
+                
+                // Simple calendar implementation
+                var today = new Date();
+                var monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                                 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                
+                var html = '<h3 style="color: #006400; margin-bottom: 20px;">📆 Kalender 30 Hari</h3>';
+                html += '<div style="text-align: center; margin-bottom: 20px;">';
+                html += '<strong>' + monthNames[today.getMonth()] + ' ' + today.getFullYear() + '</strong>';
+                html += '</div>';
+                
+                html += '<div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px;">';
+                
+                // Day headers
+                var days = ['M', 'S', 'S', 'R', 'K', 'J', 'S'];
+                for (var i = 0; i < days.length; i++) {
+                    html += '<div style="text-align: center; padding: 5px; background: #f0f0f0; font-weight: bold;">' + days[i] + '</div>';
+                }
+                
+                // Days
+                for (var d = 1; d <= 30; d++) {
+                    var date = new Date(today.getFullYear(), today.getMonth(), d);
+                    var dayOfWeek = date.getDay();
+                    var isToday = d === today.getDate();
+                    
+                    var dayClass = isToday ? 'background: #006400; color: white;' : 'background: white;';
+                    
+                    html += '<div style="' + dayClass + ' border: 1px solid #ddd; padding: 10px; text-align: center;">' + d + '</div>';
+                }
+                
+                html += '</div>';
+                
+                container.innerHTML = html;
+            };
+            
+            // QR Generator
+            window.showQRGenerator = function() {
+                showForm('qr');
+                
+                var container = document.getElementById('qrForm');
+                if (!container) return;
+                
+                var html = '<h3 style="color: #006400; margin-bottom: 20px;">🔳 QR Code Generator</h3>';
+                html += '<p style="margin-bottom: 20px;">Pilih tipe QR Code:</p>';
+                
+                html += '<div style="margin-bottom: 20px;">';
+                html += '<select id="qrType" style="width: 100%; padding: 10px; margin-bottom: 10px;">';
+                html += '<option value="booking">Booking QR</option>';
+                html += '<option value="contact">Kontak Darurat</option>';
+                html += '<option value="custom">Custom Text</option>';
+                html += '</select>';
+                html += '</div>';
+                
+                html += '<div id="qrPreview" style="text-align: center; padding: 20px; background: #f9f9f9; border-radius: 8px;">';
+                html += '<p>QR Code akan muncul di sini</p>';
+                html += '</div>';
+                
+                html += '<button onclick="generateQR()" style="margin-top: 20px;">Generate QR Code</button>';
+                
+                container.innerHTML = html;
+            };
+            
+            window.generateQR = function() {
+                var type = document.getElementById('qrType').value;
+                var content = '';
+                
+                if (type === 'booking') {
+                    content = 'BOOKING SIF AL FIKRI - Hubungi Pak Erwin: 0888-6183-954';
+                } else if (type === 'contact') {
+                    content = 'EMERGENCY CONTACT SIF AL FIKRI\nPak Erwin: 0888-6183-954\nSecurity: (021) 123456';
+                } else {
+                    content = prompt('Masukkan teks untuk QR Code:', 'SIF Al Fikri - General Affairs');
+                    if (!content) return;
+                }
+                
+                // Simple QR code using Google Charts API (fallback to text if offline)
+                var qrUrl = 'https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=' + 
+                           encodeURIComponent(content) + '&choe=UTF-8';
+                
+                var preview = document.getElementById('qrPreview');
+                preview.innerHTML = '<img src="' + qrUrl + '" alt="QR Code" style="max-width: 200px;">' +
+                                  '<p style="margin-top: 10px; font-size: 12px; color: #666;">' + 
+                                  content.substring(0, 50) + (content.length > 50 ? '...' : '') + '</p>';
+            };
+            
+        })();
+    </script>
+    
+    <!-- POLYFILLS FOR OLD BROWSERS (INLINE) -->
+    <script>
+        // LocalStorage polyfill for very old browsers
+        if (typeof window.localStorage === 'undefined') {
+            window.localStorage = {
+                _data: {},
+                setItem: function(id, val) {
+                    this._data[id] = String(val);
+                },
+                getItem: function(id) {
+                    return this._data.hasOwnProperty(id) ? this._data[id] : null;
+                },
+                removeItem: function(id) {
+                    delete this._data[id];
+                },
+                clear: function() {
+                    this._data = {};
+                }
+            };
+        }
+        
+        // JSON polyfill (shouldn't be needed for target browsers, but just in case)
+        if (typeof JSON === 'undefined') {
+            // Very simple JSON implementation
+            window.JSON = {
+                parse: function(s) {
+                    return eval('(' + s + ')');
+                },
+                stringify: function(obj) {
+                    var parts = [];
+                    for (var key in obj) {
+                        if (obj.hasOwnProperty(key)) {
+                            parts.push('"' + key + '":' + JSON.stringify(obj[key]));
+                        }
+                    }
+                    return '{' + parts.join(',') + '}';
+                }
+            };
+        }
+        
+        // requestAnimationFrame polyfill
+        if (!window.requestAnimationFrame) {
+            window.requestAnimationFrame = function(callback) {
+                return setTimeout(callback, 1000 / 60);
+            };
+            window.cancelAnimationFrame = function(id) {
+                clearTimeout(id);
+            };
+        }
+    </script>
+    
+    <!-- SERVICE WORKER FOR OFFLINE SUPPORT -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            // Only register if network is not 2G
+            var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            var shouldRegister = true;
+            
+            if (connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g')) {
+                shouldRegister = false;
+            }
+            
+            if (shouldRegister) {
+                navigator.serviceWorker.register('sw.js').catch(function(error) {
+                    console.log('ServiceWorker registration failed:', error);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
